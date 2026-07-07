@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth;}
+  body{min-height:100dvh;}
+  .tnum{font-variant-numeric:tabular-nums lining-nums;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+</style>
+</helmet>
+
+<div style="--bg:oklch(0.985 0.002 255);--surface:oklch(1 0 0);--surface-2:oklch(0.968 0.003 255);--sunken:oklch(0.955 0.004 255);--border:oklch(0.918 0.004 255);--border-strong:oklch(0.86 0.006 255);--fg:oklch(0.235 0.012 260);--fg-muted:oklch(0.5 0.012 260);--fg-subtle:oklch(0.64 0.01 260);--accent:oklch(0.58 0.17 256);--accent-hover:oklch(0.52 0.17 256);--accent-muted:oklch(0.955 0.035 256);--good:oklch(0.62 0.12 200);--good-bg:oklch(0.95 0.035 200);--bad:oklch(0.605 0.18 25);--bad-bg:oklch(0.955 0.04 35);--warn:oklch(0.72 0.13 75);--s-par:oklch(0.7 0.008 260);--s-bogey:oklch(0.78 0.12 82);--s-double:oklch(0.67 0.16 52);--s-triple:oklch(0.56 0.2 28);--s-birdie:oklch(0.62 0.12 205);--c1:oklch(0.62 0.15 256);--c2:oklch(0.62 0.15 300);--c3:oklch(0.64 0.15 350);--c4:oklch(0.72 0.13 78);--c5:oklch(0.66 0.13 196);--c6:oklch(0.58 0.14 282);--e1:0 1px 2px oklch(0.2 0.02 260 / 0.06), 0 0 0 1px oklch(0.918 0.004 255);--e2:0 4px 14px oklch(0.2 0.02 260 / 0.08), 0 0 0 1px oklch(0.918 0.004 255);--e3:0 14px 36px oklch(0.2 0.02 260 / 0.12), 0 0 0 1px oklch(0.918 0.004 255);--mono:'JetBrains Mono',ui-monospace,monospace;--sans:'Hanken Grotesk',ui-sans-serif,system-ui,sans-serif;--disp:'Archivo',ui-sans-serif,system-ui,sans-serif;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.5;min-height:100vh;">
+
+  <!-- ============ TOP NAV ============ -->
+  <div style="position:sticky;top:0;z-index:50;background:oklch(0.985 0.002 255 / 0.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);">
+    <div style="max-width:1180px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+      <div style="display:flex;align-items:center;gap:11px;">
+        <div style="width:26px;height:26px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px oklch(0.58 0.17 256 / 0.35);">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2.4" fill="white"/><circle cx="8" cy="8" r="6" stroke="white" stroke-opacity="0.55" stroke-width="1.3"/></svg>
+        </div>
+        <span style="font-family:var(--disp);font-weight:700;font-size:17px;letter-spacing:-0.01em;">Scratch</span>
+        <span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);padding:3px 7px;background:var(--surface-2);border-radius:999px;border:1px solid var(--border);">design spec · v1</span>
+      </div>
+      <div style="display:flex;gap:4px;font-family:var(--mono);font-size:12px;">
+        <a href="#ia" style="text-decoration:none;color:var(--fg-muted);padding:6px 11px;border-radius:7px;">01 · IA</a>
+        <a href="#visual" style="text-decoration:none;color:var(--fg-muted);padding:6px 11px;border-radius:7px;">02 · Visual</a>
+        <a href="#components" style="text-decoration:none;color:var(--fg-muted);padding:6px 11px;border-radius:7px;">03 · Components</a>
+        <a href="#wireframes" style="text-decoration:none;color:var(--fg-muted);padding:6px 11px;border-radius:7px;">04 · Wireframes</a>
+        <a href="#questions" style="text-decoration:none;color:var(--bad);padding:6px 11px;border-radius:7px;">05 · Questions</a>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:1180px;margin:0 auto;padding:0 32px 120px;">
+
+    <!-- ============ COVER ============ -->
+    <section data-screen-label="Cover" style="padding:72px 0 56px;border-bottom:1px solid var(--border);">
+      <div style="font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:20px;">Golf performance app · direction pass</div>
+      <h1 style="font-family:var(--disp);font-weight:700;font-size:clamp(34px,5vw,56px);line-height:1.02;letter-spacing:-0.02em;max-width:18ch;margin-bottom:22px;">Information architecture &amp; visual direction.</h1>
+      <p style="font-size:17px;line-height:1.55;color:var(--fg-muted);max-width:60ch;margin-bottom:36px;">The map the build follows, and the design system Claude Code builds against. Settled here so we agree the structure before the dashboard gets pixel-polished. Every number on this page is your real seed data — three rounds, not idealised figures.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--accent);margin-bottom:10px;">01 — IN THIS PASS</div>
+          <div style="font-family:var(--disp);font-weight:600;font-size:17px;margin-bottom:6px;">IA — settled</div>
+          <p style="font-size:13.5px;color:var(--fg-muted);line-height:1.5;">Full view inventory, navigation model, flow map, and the 9-vs-18 rule.</p>
+        </div>
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--accent);margin-bottom:10px;">02 — IN THIS PASS</div>
+          <div style="font-family:var(--disp);font-weight:600;font-size:17px;margin-bottom:6px;">Visual direction</div>
+          <p style="font-size:13.5px;color:var(--fg-muted);line-height:1.5;">Token system + chart palette, shipped as a code-consumable file, with component treatments.</p>
+        </div>
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;opacity:0.72;">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);margin-bottom:10px;">03 — AFTER SIGN-OFF</div>
+          <div style="font-family:var(--disp);font-weight:600;font-size:17px;margin-bottom:6px;">Dashboard</div>
+          <p style="font-size:13.5px;color:var(--fg-muted);line-height:1.5;">Two directions to compare — built once we lock this. Wireframed below to prove the IA.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 01 · IA ============ -->
+    <section id="ia" data-screen-label="IA" style="padding:72px 0;scroll-margin-top:72px;border-bottom:1px solid var(--border);">
+      <div style="font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:0.12em;margin-bottom:14px;">01 — INFORMATION ARCHITECTURE</div>
+      <h2 style="font-family:var(--disp);font-weight:700;font-size:34px;letter-spacing:-0.02em;margin-bottom:14px;">The map</h2>
+      <p style="font-size:16px;color:var(--fg-muted);max-width:64ch;margin-bottom:44px;">Seven view families, a persistent left sidebar, and one primary action. Capture feeds the dashboard; the dashboard is the jumping-off point into everything analytical.</p>
+
+      <!-- Nav model -->
+      <h3 style="font-family:var(--disp);font-weight:600;font-size:18px;margin-bottom:18px;display:flex;align-items:center;gap:10px;"><span style="font-family:var(--mono);font-size:12px;color:var(--fg-subtle);font-weight:400;">navigation model</span><span style="flex:1;height:1px;background:var(--border);"></span></h3>
+      <div style="display:grid;grid-template-columns:248px 1fr;gap:28px;align-items:start;margin-bottom:56px;">
+        <!-- sidebar mock -->
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e2);padding:16px 12px;">
+          <div style="display:flex;align-items:center;gap:9px;padding:6px 10px 14px;">
+            <div style="width:22px;height:22px;border-radius:6px;background:var(--accent);display:flex;align-items:center;justify-content:center;"><svg width="11" height="11" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.2" fill="white"/><circle cx="8" cy="8" r="5.6" stroke="white" stroke-opacity="0.5" stroke-width="1.2" fill="none"/></svg></div>
+            <span style="font-family:var(--disp);font-weight:700;font-size:15px;">Scratch</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:9px;background:var(--accent-muted);color:var(--accent);font-weight:600;font-size:13.5px;margin-bottom:3px;">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>Dashboard</div>
+          <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:9px;color:var(--fg-muted);font-size:13.5px;margin-bottom:3px;">
+            <svg width="15" height="15" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.4" fill="none"><line x1="2" y1="4" x2="14" y2="4"/><line x1="2" y1="8" x2="14" y2="8"/><line x1="2" y1="12" x2="14" y2="12"/></svg>Rounds</div>
+          <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:9px;color:var(--fg-muted);font-size:13.5px;margin-bottom:3px;">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="6" width="4" height="8" rx="1"/><rect x="10" y="2" width="4" height="12" rx="1"/></svg>Compare</div>
+          <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:9px;color:var(--fg-muted);font-size:13.5px;margin-bottom:3px;">
+            <svg width="15" height="15" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.4" fill="none"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="1.6" fill="currentColor" stroke="none"/></svg>Hole analysis</div>
+          <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:9px;color:var(--fg-muted);font-size:13.5px;margin-bottom:12px;">
+            <svg width="15" height="15" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.4" fill="none"><line x1="4" y1="1.5" x2="4" y2="14.5"/><path d="M4 2.5 L12 4.5 L4 6.5" fill="currentColor" stroke="none"/></svg>Courses</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:9px;background:var(--accent);color:white;font-weight:600;font-size:13.5px;box-shadow:0 2px 10px oklch(0.58 0.17 256 / 0.3);">
+            <svg width="14" height="14" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.8"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>Log a round</div>
+        </div>
+        <!-- nav rationale -->
+        <div style="display:grid;gap:12px;">
+          <div style="display:flex;gap:14px;align-items:baseline;padding:14px 16px;background:var(--surface);border-radius:12px;box-shadow:var(--e1);">
+            <span style="font-family:var(--mono);font-size:11px;color:var(--accent);min-width:74px;">PERSISTENT</span>
+            <p style="font-size:14px;color:var(--fg-muted);"><strong style="color:var(--fg);font-weight:600;">Left sidebar, desktop-first, responsive.</strong> Collapses to a bottom tab bar under ~720px so you can check or log a round at the course.</p>
+          </div>
+          <div style="display:flex;gap:14px;align-items:baseline;padding:14px 16px;background:var(--surface);border-radius:12px;box-shadow:var(--e1);">
+            <span style="font-family:var(--mono);font-size:11px;color:var(--accent);min-width:74px;">PRIMARY</span>
+            <p style="font-size:14px;color:var(--fg-muted);"><strong style="color:var(--fg);font-weight:600;">“Log a round” is the one promoted action.</strong> Pinned to the sidebar foot on desktop, a FAB on mobile — it's the only thing that creates data.</p>
+          </div>
+          <div style="display:flex;gap:14px;align-items:baseline;padding:14px 16px;background:var(--surface);border-radius:12px;box-shadow:var(--e1);">
+            <span style="font-family:var(--mono);font-size:11px;color:var(--accent);min-width:74px;">FLAT</span>
+            <p style="font-size:14px;color:var(--fg-muted);"><strong style="color:var(--fg);font-weight:600;">No nested menus.</strong> Compare and Hole analysis are top-level, not buried under a round — they're first-class, per your brief.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- View inventory -->
+      <h3 style="font-family:var(--disp);font-weight:600;font-size:18px;margin-bottom:18px;display:flex;align-items:center;gap:10px;"><span style="font-family:var(--mono);font-size:12px;color:var(--fg-subtle);font-weight:400;">view inventory</span><span style="flex:1;height:1px;background:var(--border);"></span></h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px;margin-bottom:56px;">
+
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;border-top:3px solid var(--accent);">
+          <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;">
+            <div style="font-family:var(--disp);font-weight:600;font-size:16px;">Dashboard</div>
+            <span style="font-family:var(--mono);font-size:10px;padding:3px 7px;border-radius:999px;background:var(--accent-muted);color:var(--accent);">DESIGN NEXT</span>
+          </div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);margin-bottom:10px;">/dashboard</div>
+          <p style="font-size:13.5px;color:var(--fg-muted);line-height:1.5;margin-bottom:12px;">Cross-round trends + a weakness spotlight. Answers “am I improving?” and “where am I losing strokes?” first.</p>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">score trend · putts trend · GIR · fairway accuracy · score mix · blow-up flags</div>
+        </div>
+
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;border-top:3px solid var(--border-strong);">
+          <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;">
+            <div style="font-family:var(--disp);font-weight:600;font-size:16px;">Rounds (list)</div>
+            <span style="font-family:var(--mono);font-size:10px;padding:3px 7px;border-radius:999px;background:var(--surface-2);color:var(--fg-subtle);border:1px solid var(--border);">EXISTS</span>
+          </div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);margin-bottom:10px;">/rounds</div>
+          <p style="font-size:13.5px;color:var(--fg-muted);line-height:1.5;margin-bottom:12px;">Reverse-chronological log. Each row scope-tagged 9 or 18. Entry point to detail + multi-select for Compare.</p>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">gross · vs par · putts · GIR · scope badge</div>
+        </div>
+
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;border-top:3px solid var(--border-strong);">
+          <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;">
+            <div style="font-family:var(--disp);font-weight:600;font-size:16px;">Round detail</div>
+            <span style="font-family:var(--mono);font-size:10px;padding:3px 7px;border-radius:999px;background:var(--surface-2);color:var(--fg-subtle);border:1px solid var(--border);">WIREFRAME</span>
+          </div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);margin-bottom:10px;">/rounds/[id]</div>
+          <p style="font-size:13.5px;color:var(--fg-muted);line-height:1.5;margin-bottom:12px;">Hole-by-hole scorecard + a per-hole score-to-par strip that absorbs a 10 without breaking scale. Front/back nine split.</p>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">per-hole gross/net/putts/GIR/accuracy · scoreVsPar</div>
+        </div>
+
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;border-top:3px solid var(--border-strong);">
+          <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;">
+            <div style="font-family:var(--disp);font-weight:600;font-size:16px;">Compare</div>
+            <span style="font-family:var(--mono);font-size:10px;padding:3px 7px;border-radius:999px;background:var(--surface-2);color:var(--fg-subtle);border:1px solid var(--border);">WIREFRAME</span>
+          </div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);margin-bottom:10px;">/compare</div>
+          <p style="font-size:13.5px;color:var(--fg-muted);line-height:1.5;margin-bottom:12px;">Round-vs-round, and same-course / same-hole. Surfaces trade-offs — fairways down, score held. Scope-locked (won't pit 9 vs 18).</p>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">paired metrics · per-hole deltas · same-hole history</div>
+        </div>
+
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;border-top:3px solid var(--border-strong);">
+          <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;">
+            <div style="font-family:var(--disp);font-weight:600;font-size:16px;">Hole analysis</div>
+            <span style="font-family:var(--mono);font-size:10px;padding:3px 7px;border-radius:999px;background:var(--surface-2);color:var(--fg-subtle);border:1px solid var(--border);">WIREFRAME</span>
+          </div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);margin-bottom:10px;">/holes</div>
+          <p style="font-size:13.5px;color:var(--fg-muted);line-height:1.5;margin-bottom:12px;">Aggregate by stroke index band, par type, and front/back nine. Where does the damage cluster across all rounds?</p>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">avg vs par by SI / par / nine · grouped from per-hole</div>
+        </div>
+
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;border-top:3px solid var(--border-strong);">
+          <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;">
+            <div style="font-family:var(--disp);font-weight:600;font-size:16px;">Courses + Log a round</div>
+            <span style="font-family:var(--mono);font-size:10px;padding:3px 7px;border-radius:999px;background:var(--surface-2);color:var(--fg-subtle);border:1px solid var(--border);">WIREFRAME</span>
+          </div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);margin-bottom:10px;">/courses · /rounds/new</div>
+          <p style="font-size:13.5px;color:var(--fg-muted);line-height:1.5;margin-bottom:12px;">Build a course template once (SI/par/yards per hole), then log a round against it — the snapshot is frozen onto the round.</p>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">template editor · hole-by-hole entry · 9/18 choice</div>
+        </div>
+      </div>
+
+      <!-- Flow map -->
+      <h3 style="font-family:var(--disp);font-weight:600;font-size:18px;margin-bottom:18px;display:flex;align-items:center;gap:10px;"><span style="font-family:var(--mono);font-size:12px;color:var(--fg-subtle);font-weight:400;">flow map</span><span style="flex:1;height:1px;background:var(--border);"></span></h3>
+      <div style="background:var(--surface);border-radius:16px;box-shadow:var(--e1);padding:32px;margin-bottom:56px;overflow-x:auto;">
+        <div style="display:flex;align-items:stretch;gap:0;min-width:760px;">
+          <!-- Capture -->
+          <div style="flex:0 0 200px;">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);letter-spacing:0.08em;margin-bottom:14px;">CAPTURE</div>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="border:1.5px solid var(--border-strong);border-radius:11px;padding:13px 14px;background:var(--surface-2);">
+                <div style="font-family:var(--disp);font-weight:600;font-size:14px;">Course template</div>
+                <div style="font-size:12px;color:var(--fg-muted);">create once</div>
+              </div>
+              <div style="display:flex;justify-content:center;color:var(--accent);font-size:14px;">↓</div>
+              <div style="border:1.5px solid var(--accent);border-radius:11px;padding:13px 14px;background:var(--accent-muted);">
+                <div style="font-family:var(--disp);font-weight:600;font-size:14px;color:var(--accent);">Log a round</div>
+                <div style="font-size:12px;color:var(--fg-muted);">9 or 18 holes</div>
+              </div>
+            </div>
+          </div>
+          <div style="flex:0 0 56px;display:flex;align-items:center;justify-content:center;color:var(--accent);font-family:var(--mono);">→</div>
+          <!-- Surface -->
+          <div style="flex:0 0 200px;">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);letter-spacing:0.08em;margin-bottom:14px;">SURFACE</div>
+            <div style="border:1.5px solid var(--accent);border-radius:11px;padding:16px 14px;background:var(--surface);box-shadow:var(--e2);">
+              <div style="font-family:var(--disp);font-weight:700;font-size:15px;">Dashboard</div>
+              <div style="font-size:12px;color:var(--fg-muted);margin-top:3px;">landing · trends + weakness spotlight</div>
+            </div>
+            <div style="font-size:12px;color:var(--fg-subtle);text-align:center;margin-top:12px;font-family:var(--mono);">drill into ↓</div>
+          </div>
+          <div style="flex:0 0 56px;display:flex;align-items:center;justify-content:center;color:var(--accent);font-family:var(--mono);">→</div>
+          <!-- Investigate -->
+          <div style="flex:1;min-width:200px;">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);letter-spacing:0.08em;margin-bottom:14px;">INVESTIGATE</div>
+            <div style="display:grid;gap:10px;">
+              <div style="border:1.5px solid var(--border-strong);border-radius:11px;padding:12px 14px;background:var(--surface-2);display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-family:var(--disp);font-weight:600;font-size:14px;">Rounds → detail</span><span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">hole-by-hole</span></div>
+              <div style="border:1.5px solid var(--border-strong);border-radius:11px;padding:12px 14px;background:var(--surface-2);display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-family:var(--disp);font-weight:600;font-size:14px;">Compare</span><span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">round / same-hole</span></div>
+              <div style="border:1.5px solid var(--border-strong);border-radius:11px;padding:12px 14px;background:var(--surface-2);display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-family:var(--disp);font-weight:600;font-size:14px;">Hole analysis</span><span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">SI / par / nine</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--fg-subtle);margin-top:12px;font-family:var(--mono);">↔ cross-link: a weak hole on the dashboard jumps straight to its same-hole history in Compare or its band in Hole analysis.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9 vs 18 rule -->
+      <div style="background:var(--bad-bg);border:1px solid oklch(0.605 0.18 25 / 0.25);border-radius:14px;padding:24px 26px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <span style="font-family:var(--mono);font-size:11px;color:var(--bad);letter-spacing:0.08em;padding:4px 9px;background:oklch(1 0 0 / 0.6);border-radius:999px;">INVARIANT</span>
+          <span style="font-family:var(--disp);font-weight:600;font-size:16px;">The 9-vs-18 rule</span>
+        </div>
+        <p style="font-size:14.5px;color:var(--fg);line-height:1.6;max-width:74ch;">A 9-hole total is never placed beside an 18-hole total as if comparable. Every total carries a <strong>scope tag</strong>. Trends plot 9 and 18 on separate tracks (or compare to par-relative / per-hole figures, never raw gross). Compare is <strong>scope-locked</strong> — it will only pair like with like. This is wired into the components below, not left to the implementer's memory.</p>
+      </div>
+    </section>
+
+    <!-- ============ 02 · VISUAL ============ -->
+    <section id="visual" data-screen-label="Visual direction" style="padding:72px 0;scroll-margin-top:72px;border-bottom:1px solid var(--border);">
+      <div style="font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:0.12em;margin-bottom:14px;">02 — VISUAL DIRECTION</div>
+      <h2 style="font-family:var(--disp);font-weight:700;font-size:34px;letter-spacing:-0.02em;margin-bottom:14px;">Modern sports-science</h2>
+      <p style="font-size:16px;color:var(--fg-muted);max-width:64ch;margin-bottom:20px;">A quiet, neutral instrument with athletic numerals and one confident accent. No golf-green — a cool grey base, electric blue, and a score ramp that earns its colour. Tokens ship as a Tailwind v4 <span style="font-family:var(--mono);font-size:13px;">@theme</span> file you commit to the repo.</p>
+      <div style="display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:var(--fg-muted);background:var(--surface);padding:9px 14px;border-radius:10px;box-shadow:var(--e1);margin-bottom:48px;">
+        <svg width="14" height="14" viewBox="0 0 16 16" style="stroke:var(--accent);" stroke-width="1.5" fill="none"><path d="M5 2 H11 L14 5 V14 H2 V2 Z"/><path d="M5 6 H11 M5 9 H11 M5 12 H9"/></svg>
+        scratch-tokens.css — delivered with this doc
+      </div>
+
+      <!-- Color -->
+      <h3 style="font-family:var(--disp);font-weight:600;font-size:18px;margin-bottom:18px;display:flex;align-items:center;gap:10px;"><span style="font-family:var(--mono);font-size:12px;color:var(--fg-subtle);font-weight:400;">colour</span><span style="flex:1;height:1px;background:var(--border);"></span></h3>
+
+      <!-- neutrals light/dark -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:18px;">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);margin-bottom:12px;">NEUTRAL BASE · LIGHT</div>
+          <div style="display:flex;border-radius:9px;overflow:hidden;border:1px solid var(--border);">
+            <div style="flex:1;height:54px;background:oklch(0.985 0.002 255);"></div>
+            <div style="flex:1;height:54px;background:oklch(0.968 0.003 255);"></div>
+            <div style="flex:1;height:54px;background:oklch(0.918 0.004 255);"></div>
+            <div style="flex:1;height:54px;background:oklch(0.64 0.01 260);"></div>
+            <div style="flex:1;height:54px;background:oklch(0.5 0.012 260);"></div>
+            <div style="flex:1;height:54px;background:oklch(0.235 0.012 260);"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;color:var(--fg-subtle);margin-top:7px;"><span>bg</span><span>surf-2</span><span>border</span><span>subtle</span><span>muted</span><span>fg</span></div>
+        </div>
+        <div style="background:oklch(0.214 0.014 262);border-radius:14px;box-shadow:var(--e1);padding:18px;">
+          <div style="font-family:var(--mono);font-size:11px;color:oklch(0.72 0.012 262);margin-bottom:12px;">NEUTRAL BASE · DARK</div>
+          <div style="display:flex;border-radius:9px;overflow:hidden;border:1px solid oklch(0.3 0.016 262);">
+            <div style="flex:1;height:54px;background:oklch(0.176 0.012 262);"></div>
+            <div style="flex:1;height:54px;background:oklch(0.246 0.015 262);"></div>
+            <div style="flex:1;height:54px;background:oklch(0.3 0.016 262);"></div>
+            <div style="flex:1;height:54px;background:oklch(0.56 0.012 262);"></div>
+            <div style="flex:1;height:54px;background:oklch(0.72 0.012 262);"></div>
+            <div style="flex:1;height:54px;background:oklch(0.955 0.005 262);"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;color:oklch(0.56 0.012 262);margin-top:7px;"><span>bg</span><span>surf-2</span><span>border</span><span>subtle</span><span>muted</span><span>fg</span></div>
+        </div>
+      </div>
+
+      <!-- accent + semantic -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:18px;">
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:16px;">
+          <div style="height:48px;border-radius:9px;background:var(--accent);margin-bottom:10px;box-shadow:0 4px 14px oklch(0.58 0.17 256 / 0.35);"></div>
+          <div style="font-family:var(--disp);font-weight:600;font-size:13.5px;">Accent</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);">electric blue · interactive</div>
+        </div>
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:16px;">
+          <div style="height:48px;border-radius:9px;background:var(--good);margin-bottom:10px;"></div>
+          <div style="font-family:var(--disp);font-weight:600;font-size:13.5px;">Good</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);">improvement · not green</div>
+        </div>
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:16px;">
+          <div style="height:48px;border-radius:9px;background:var(--bad);margin-bottom:10px;"></div>
+          <div style="font-family:var(--disp);font-weight:600;font-size:13.5px;">Bad</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);">regression · warm red</div>
+        </div>
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:16px;">
+          <div style="height:48px;border-radius:9px;background:var(--warn);margin-bottom:10px;"></div>
+          <div style="font-family:var(--disp);font-weight:600;font-size:13.5px;">Warn</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);">caution · amber</div>
+        </div>
+      </div>
+
+      <!-- score ramp -->
+      <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;margin-bottom:18px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">SCORE-TO-PAR RAMP</div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">sequential by severity · the domain's signature scale</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;">
+          <div><div style="height:46px;border-radius:8px;background:var(--s-birdie);"></div><div style="font-family:var(--mono);font-size:10px;text-align:center;margin-top:6px;color:var(--fg-muted);">birdie−</div></div>
+          <div><div style="height:46px;border-radius:8px;background:var(--s-par);"></div><div style="font-family:var(--mono);font-size:10px;text-align:center;margin-top:6px;color:var(--fg-muted);">par</div></div>
+          <div><div style="height:46px;border-radius:8px;background:var(--s-bogey);"></div><div style="font-family:var(--mono);font-size:10px;text-align:center;margin-top:6px;color:var(--fg-muted);">+1</div></div>
+          <div><div style="height:46px;border-radius:8px;background:var(--s-double);"></div><div style="font-family:var(--mono);font-size:10px;text-align:center;margin-top:6px;color:var(--fg-muted);">+2</div></div>
+          <div><div style="height:46px;border-radius:8px;background:var(--s-triple);"></div><div style="font-family:var(--mono);font-size:10px;text-align:center;margin-top:6px;color:var(--fg-muted);">+3</div></div>
+          <div><div style="height:46px;border-radius:8px;background:var(--s-triple);opacity:0.75;border:2px dashed oklch(1 0 0 / 0.5);"></div><div style="font-family:var(--mono);font-size:10px;text-align:center;margin-top:6px;color:var(--fg-muted);">blow-up</div></div>
+        </div>
+      </div>
+
+      <!-- chart palette -->
+      <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;margin-bottom:56px;">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);margin-bottom:14px;">CATEGORICAL CHART PALETTE · shared chroma, hue-stepped · multi-series &amp; multi-round</div>
+        <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;">
+          <div style="height:40px;border-radius:8px;background:var(--c1);"></div>
+          <div style="height:40px;border-radius:8px;background:var(--c2);"></div>
+          <div style="height:40px;border-radius:8px;background:var(--c3);"></div>
+          <div style="height:40px;border-radius:8px;background:var(--c4);"></div>
+          <div style="height:40px;border-radius:8px;background:var(--c5);"></div>
+          <div style="height:40px;border-radius:8px;background:var(--c6);"></div>
+        </div>
+      </div>
+
+      <!-- Type -->
+      <h3 style="font-family:var(--disp);font-weight:600;font-size:18px;margin-bottom:18px;display:flex;align-items:center;gap:10px;"><span style="font-family:var(--mono);font-size:12px;color:var(--fg-subtle);font-weight:400;">type</span><span style="flex:1;height:1px;background:var(--border);"></span></h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:18px;">
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;">
+          <div style="font-family:var(--disp);font-weight:700;font-size:40px;line-height:1;margin-bottom:10px;">Aa</div>
+          <div style="font-family:var(--disp);font-weight:600;font-size:14px;">Archivo</div>
+          <div style="font-family:var(--mono);font-size:10.5px;color:var(--fg-subtle);">display + all numerals · connected figures</div>
+        </div>
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;">
+          <div style="font-family:var(--sans);font-weight:600;font-size:40px;line-height:1;margin-bottom:10px;">Aa</div>
+          <div style="font-family:var(--disp);font-weight:600;font-size:14px;">Hanken Grotesk</div>
+          <div style="font-family:var(--mono);font-size:10.5px;color:var(--fg-subtle);">body + UI</div>
+        </div>
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;">
+          <div style="font-family:var(--mono);font-weight:500;font-size:36px;line-height:1;margin-bottom:14px;">Aa</div>
+          <div style="font-family:var(--disp);font-weight:600;font-size:14px;">JetBrains Mono</div>
+          <div style="font-family:var(--mono);font-size:10.5px;color:var(--fg-subtle);">micro-labels · SI · yards</div>
+        </div>
+      </div>
+      <!-- type scale -->
+      <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:24px 26px;margin-bottom:18px;display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;align-items:baseline;gap:18px;border-bottom:1px solid var(--border);padding-bottom:14px;"><span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);min-width:130px;">hero · 60 / disp 700</span><span style="font-family:var(--disp);font-weight:700;font-size:60px;line-height:1;letter-spacing:-0.02em;" class="tnum">107</span></div>
+        <div style="display:flex;align-items:baseline;gap:18px;border-bottom:1px solid var(--border);padding-bottom:14px;"><span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);min-width:130px;">stat · 44 / disp 600</span><span style="font-family:var(--disp);font-weight:600;font-size:44px;line-height:1;" class="tnum">+34</span></div>
+        <div style="display:flex;align-items:baseline;gap:18px;border-bottom:1px solid var(--border);padding-bottom:14px;"><span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);min-width:130px;">h1 · 30 / disp 700</span><span style="font-family:var(--disp);font-weight:700;font-size:30px;">Round 3 · par 72</span></div>
+        <div style="display:flex;align-items:baseline;gap:18px;border-bottom:1px solid var(--border);padding-bottom:14px;"><span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);min-width:130px;">h2 · 22 / disp 600</span><span style="font-family:var(--disp);font-weight:600;font-size:22px;">Where you lose strokes</span></div>
+        <div style="display:flex;align-items:baseline;gap:18px;border-bottom:1px solid var(--border);padding-bottom:14px;"><span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);min-width:130px;">body · 15 / sans 400</span><span style="font-size:15px;">Fairway accuracy fell as the driver came back in.</span></div>
+        <div style="display:flex;align-items:baseline;gap:18px;"><span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);min-width:130px;">micro · 11 / mono 500</span><span style="font-family:var(--mono);font-size:11px;letter-spacing:0.04em;color:var(--fg-muted);">SI 1 · PAR 4 · 421 YDS</span></div>
+      </div>
+
+      <!-- Spacing / radii / elevation -->
+      <h3 style="font-family:var(--disp);font-weight:600;font-size:18px;margin:38px 0 18px;display:flex;align-items:center;gap:10px;"><span style="font-family:var(--mono);font-size:12px;color:var(--fg-subtle);font-weight:400;">spacing · radii · elevation</span><span style="flex:1;height:1px;background:var(--border);"></span></h3>
+      <div style="display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:14px;">
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);margin-bottom:14px;">SPACING · 4px base</div>
+          <div style="display:flex;align-items:flex-end;gap:6px;">
+            <div style="width:4px;height:4px;background:var(--accent);border-radius:2px;"></div>
+            <div style="width:8px;height:8px;background:var(--accent);border-radius:2px;"></div>
+            <div style="width:12px;height:12px;background:var(--accent);border-radius:2px;"></div>
+            <div style="width:16px;height:16px;background:var(--accent);border-radius:2px;"></div>
+            <div style="width:24px;height:24px;background:var(--accent);border-radius:3px;"></div>
+            <div style="width:32px;height:32px;background:var(--accent);border-radius:3px;"></div>
+            <div style="width:48px;height:48px;background:var(--accent);border-radius:4px;"></div>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-top:10px;">4 · 8 · 12 · 16 · 24 · 32 · 48 · 64</div>
+        </div>
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);margin-bottom:14px;">RADII</div>
+          <div style="display:flex;gap:8px;align-items:flex-end;">
+            <div style="width:34px;height:34px;background:var(--accent-muted);border:1.5px solid var(--accent);border-radius:6px;"></div>
+            <div style="width:34px;height:34px;background:var(--accent-muted);border:1.5px solid var(--accent);border-radius:10px;"></div>
+            <div style="width:34px;height:34px;background:var(--accent-muted);border:1.5px solid var(--accent);border-radius:14px;"></div>
+            <div style="width:34px;height:34px;background:var(--accent-muted);border:1.5px solid var(--accent);border-radius:999px;"></div>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-top:10px;">sm 6 · md 10 · card 14 · pill</div>
+        </div>
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);margin-bottom:14px;">ELEVATION</div>
+          <div style="display:flex;gap:12px;">
+            <div style="width:40px;height:40px;background:var(--surface);border-radius:9px;box-shadow:var(--e1);"></div>
+            <div style="width:40px;height:40px;background:var(--surface);border-radius:9px;box-shadow:var(--e2);"></div>
+            <div style="width:40px;height:40px;background:var(--surface);border-radius:9px;box-shadow:var(--e3);"></div>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-top:14px;">e1 · e2 · e3 (crisp, low-spread)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 03 · COMPONENTS ============ -->
+    <section id="components" data-screen-label="Components" style="padding:72px 0;scroll-margin-top:72px;border-bottom:1px solid var(--border);">
+      <div style="font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:0.12em;margin-bottom:14px;">03 — COMPONENT TREATMENTS</div>
+      <h2 style="font-family:var(--disp);font-weight:700;font-size:34px;letter-spacing:-0.02em;margin-bottom:14px;">The system, applied</h2>
+      <p style="font-size:16px;color:var(--fg-muted);max-width:64ch;margin-bottom:44px;">Representative treatments built against your three real rounds — the pieces the dashboard and detail views assemble from. Each one is engineered for the awkward shape of your data.</p>
+
+      <!-- stat tiles row -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:14px;">
+        <!-- score tile w sparkline -->
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);letter-spacing:0.04em;">GROSS vs PAR</span>
+            <span style="font-family:var(--mono);font-size:10px;color:var(--good);background:var(--good-bg);padding:3px 7px;border-radius:999px;">▼ 3 better</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px;">
+            <span class="tnum" style="font-family:var(--disp);font-weight:700;font-size:46px;line-height:1;">+34</span>
+            <span style="font-size:13px;color:var(--fg-subtle);">last round</span>
+          </div>
+          <svg viewBox="0 0 320 140" style="width:100%;height:70px;margin-top:6px;overflow:visible;">
+            <polyline points="{{ scoreArea }}" style="fill:oklch(0.62 0.12 200 / 0.12);stroke:none;"></polyline>
+            <polyline points="{{ scoreLine }}" style="fill:none;stroke:var(--good);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;"></polyline>
+            <sc-for list="{{ scoreDots }}" as="d" hint-placeholder-count="3"><circle cx="{{ d.x }}" cy="{{ d.y }}" r="4.5" style="fill:var(--surface);stroke:var(--good);stroke-width:3;"></circle></sc-for>
+          </svg>
+          <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-top:4px;"><span>R1 +37</span><span>R2 +36</span><span>R3 +34</span></div>
+        </div>
+
+        <!-- putts tile -->
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);letter-spacing:0.04em;">PUTTS</span>
+            <span style="font-family:var(--mono);font-size:10px;color:var(--good);background:var(--good-bg);padding:3px 7px;border-radius:999px;">▼ 8 fewer</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px;">
+            <span class="tnum" style="font-family:var(--disp);font-weight:700;font-size:46px;line-height:1;">35</span>
+            <span style="font-size:13px;color:var(--fg-subtle);">from 43</span>
+          </div>
+          <svg viewBox="0 0 320 140" style="width:100%;height:70px;overflow:visible;">
+            <polyline points="{{ puttsArea }}" style="fill:oklch(0.62 0.15 256 / 0.12);stroke:none;"></polyline>
+            <polyline points="{{ puttsLine }}" style="fill:none;stroke:var(--c1);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;"></polyline>
+            <sc-for list="{{ puttsDots }}" as="d" hint-placeholder-count="3"><circle cx="{{ d.x }}" cy="{{ d.y }}" r="4.5" style="fill:var(--surface);stroke:var(--c1);stroke-width:3;"></circle></sc-for>
+          </svg>
+          <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-top:4px;"><span>R1 42</span><span>R2 43</span><span>R3 35</span></div>
+        </div>
+
+        <!-- 3-putt tile -->
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);letter-spacing:0.04em;">3-PUTTS</span>
+            <span style="font-family:var(--mono);font-size:10px;color:var(--good);background:var(--good-bg);padding:3px 7px;border-radius:999px;">▼ 6 fewer</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:14px;">
+            <span class="tnum" style="font-family:var(--disp);font-weight:700;font-size:46px;line-height:1;">1</span>
+            <span style="font-size:13px;color:var(--fg-subtle);">of 18 holes</span>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-end;height:64px;">
+            <div style="flex:1;text-align:center;"><div style="height:60px;background:var(--bad);opacity:0.85;border-radius:5px;"></div><div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-top:5px;">R1·6</div></div>
+            <div style="flex:1;text-align:center;"><div style="height:64px;background:var(--bad);border-radius:5px;"></div><div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-top:5px;">R2·7</div></div>
+            <div style="flex:1;text-align:center;"><div style="height:10px;background:var(--good);border-radius:5px;"></div><div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-top:5px;">R3·1</div></div>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-top:8px;">small-sample swing — read with care</div>
+        </div>
+      </div>
+
+      <!-- GIR low-end + fairway tradeoff -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);letter-spacing:0.04em;">GREENS IN REGULATION</span>
+            <span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);">designed for the low end</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:16px;">
+            <span class="tnum" style="font-family:var(--disp);font-weight:700;font-size:46px;line-height:1;">1</span>
+            <span style="font-size:14px;color:var(--fg-subtle);">/ 18 · R1</span>
+          </div>
+          <!-- dot strip reads clearly at 1 of 18 -->
+          <div style="display:grid;grid-template-columns:repeat(18,1fr);gap:5px;margin-bottom:8px;">
+            <sc-for list="{{ girStrip }}" as="g" hint-placeholder-count="18"><div style="aspect-ratio:1;border-radius:50%;background:{{ g.bg }};box-shadow:{{ g.ring }};"></div></sc-for>
+          </div>
+          <p style="font-size:12.5px;color:var(--fg-muted);line-height:1.5;">A percentage bar at 5% is invisible. Eighteen dots make “1 green” countable — and a filled dot is satisfying to chase. This is the GIR primitive everywhere.</p>
+        </div>
+
+        <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:20px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);letter-spacing:0.04em;">THE TRADE-OFF</span>
+            <span style="font-family:var(--mono);font-size:10px;color:var(--warn);background:oklch(0.72 0.13 75 / 0.14);padding:3px 7px;border-radius:999px;">driver in</span>
+          </div>
+          <p style="font-size:13px;color:var(--fg-muted);margin-bottom:18px;line-height:1.5;">Fairways fell when the driver came back — yet the score held. Comparison views make this kind of thing visible.</p>
+          <div style="margin-bottom:14px;">
+            <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;margin-bottom:6px;"><span style="color:var(--fg-muted);">R1 · irons</span><span class="tnum" style="font-weight:600;color:var(--fg);">86%</span></div>
+            <div style="height:14px;border-radius:999px;background:var(--sunken);overflow:hidden;"><div style="width:86%;height:100%;background:var(--c1);border-radius:999px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;margin-bottom:6px;"><span style="color:var(--fg-muted);">R3 · driver</span><span class="tnum" style="font-weight:600;color:var(--bad);">64%</span></div>
+            <div style="height:14px;border-radius:999px;background:var(--sunken);overflow:hidden;"><div style="width:64%;height:100%;background:var(--bad);border-radius:999px;"></div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:16px;font-family:var(--mono);font-size:11px;color:var(--fg-muted);"><span style="color:var(--bad);">−22pts fairways</span><span style="color:var(--border-strong);">·</span><span style="color:var(--good);">score held (+34)</span></div>
+        </div>
+      </div>
+
+      <!-- round row + score-to-par strip -->
+      <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:6px;margin-bottom:14px;">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);padding:14px 16px 10px;">ROUND LIST ROW · scope-tagged · gross with outliers absorbed below</div>
+        <!-- row -->
+        <div style="display:flex;align-items:center;gap:18px;padding:16px;border-radius:11px;background:var(--surface-2);">
+          <div style="display:flex;flex-direction:column;gap:3px;min-width:150px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-family:var(--disp);font-weight:600;font-size:15px;">Riverside · par 72</span>
+              <span style="font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:999px;background:var(--accent-muted);color:var(--accent);border:1px solid oklch(0.58 0.17 256 / 0.25);">18</span>
+            </div>
+            <span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">Round 3 · driver reintroduced</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:6px;">
+            <span class="tnum" style="font-family:var(--disp);font-weight:700;font-size:32px;line-height:1;">106</span>
+            <span class="tnum" style="font-family:var(--mono);font-size:12px;color:var(--bad);">+34</span>
+          </div>
+          <div style="display:flex;gap:20px;margin-left:auto;font-family:var(--mono);font-size:12px;">
+            <div style="text-align:center;"><div class="tnum" style="font-weight:600;font-size:15px;color:var(--fg);">35</div><div style="font-size:10px;color:var(--fg-subtle);">putts</div></div>
+            <div style="text-align:center;"><div class="tnum" style="font-weight:600;font-size:15px;color:var(--fg);">1</div><div style="font-size:10px;color:var(--fg-subtle);">GIR</div></div>
+            <div style="text-align:center;"><div class="tnum" style="font-weight:600;font-size:15px;color:var(--fg);">64%</div><div style="font-size:10px;color:var(--fg-subtle);">fairways</div></div>
+          </div>
+        </div>
+        <!-- score-to-par strip R1 -->
+        <div style="padding:18px 16px 14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">PER-HOLE SCORE-TO-PAR · Round 1 (the 10 and the 9 don't break the scale)</span>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:4px;height:84px;">
+            <sc-for list="{{ holeBars }}" as="b" hint-placeholder-count="18">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px;">
+                <span class="tnum" style="font-family:var(--mono);font-size:9px;color:var(--fg-subtle);">{{ b.gross }}</span>
+                <div style="width:100%;height:{{ b.h }}px;background:{{ b.color }};border-radius:3px 3px 2px 2px;"></div>
+                <span style="font-family:var(--mono);font-size:8.5px;color:var(--fg-subtle);">{{ b.hole }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+
+      <!-- legend chips for score ramp + delta semantics -->
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+        <span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">CONVENTIONS:</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--good);background:var(--good-bg);padding:5px 10px;border-radius:999px;"><span style="font-size:10px;">▼</span> lower = improvement</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--bad);background:var(--bad-bg);padding:5px 10px;border-radius:999px;"><span style="font-size:10px;">▲</span> higher = regression</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--fg-muted);background:var(--surface-2);padding:5px 10px;border-radius:999px;border:1px solid var(--border);">deltas coloured by meaning, not by sign</span>
+      </div>
+    </section>
+
+    <!-- ============ 04 · WIREFRAMES ============ -->
+    <section id="wireframes" data-screen-label="Wireframes" style="padding:72px 0;scroll-margin-top:72px;border-bottom:1px solid var(--border);">
+      <div style="font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:0.12em;margin-bottom:14px;">04 — LATER-PHASE WIREFRAMES</div>
+      <h2 style="font-family:var(--disp);font-weight:700;font-size:34px;letter-spacing:-0.02em;margin-bottom:14px;">Enough to prove the IA</h2>
+      <p style="font-size:16px;color:var(--fg-muted);max-width:64ch;margin-bottom:44px;">Lo-fi on purpose — these data shapes may still shift, so detailed design waits until each is built. The job here is to show the structure holds.</p>
+
+      <div style="display:grid;gap:18px;">
+
+        <!-- WF: round detail -->
+        <div style="border:1.5px dashed var(--border-strong);border-radius:14px;padding:22px;background:var(--surface-2);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+            <span style="font-family:var(--disp);font-weight:600;font-size:16px;">Round detail — hole-by-hole</span>
+            <span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">/rounds/[id]</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;">
+            <div style="height:62px;border-radius:8px;background:var(--surface);border:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;padding:0 14px;"><span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);">GROSS</span><span style="font-family:var(--disp);font-weight:600;font-size:20px;color:var(--fg-subtle);">▢▢▢</span></div>
+            <div style="height:62px;border-radius:8px;background:var(--surface);border:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;padding:0 14px;"><span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);">vs PAR</span><span style="font-family:var(--disp);font-weight:600;font-size:20px;color:var(--fg-subtle);">▢▢</span></div>
+            <div style="height:62px;border-radius:8px;background:var(--surface);border:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;padding:0 14px;"><span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);">PUTTS</span><span style="font-family:var(--disp);font-weight:600;font-size:20px;color:var(--fg-subtle);">▢▢</span></div>
+            <div style="height:62px;border-radius:8px;background:var(--surface);border:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;padding:0 14px;"><span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);">GIR · scope</span><span style="font-family:var(--disp);font-weight:600;font-size:20px;color:var(--fg-subtle);">▢ / 18</span></div>
+          </div>
+          <div style="display:flex;gap:6px;margin-bottom:6px;">
+            <span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);padding:4px 8px;background:var(--surface);border-radius:6px;border:1px solid var(--border);">FRONT 9</span>
+            <span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);padding:4px 8px;border-radius:6px;">BACK 9</span>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;">
+            <div style="display:grid;grid-template-columns:repeat(9,1fr);gap:3px;margin-bottom:6px;">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--fg-subtle);text-align:center;">H</div><div style="grid-column:span 8;height:1px;"></div>
+            </div>
+            <div style="display:flex;align-items:flex-end;gap:5px;height:56px;">
+              <div style="flex:1;height:34px;background:var(--s-double);opacity:0.4;border-radius:3px;"></div>
+              <div style="flex:1;height:20px;background:var(--s-double);opacity:0.4;border-radius:3px;"></div>
+              <div style="flex:1;height:46px;background:var(--s-triple);opacity:0.4;border-radius:3px;"></div>
+              <div style="flex:1;height:20px;background:var(--s-double);opacity:0.4;border-radius:3px;"></div>
+              <div style="flex:1;height:8px;background:var(--s-par);opacity:0.4;border-radius:3px;"></div>
+              <div style="flex:1;height:20px;background:var(--s-double);opacity:0.4;border-radius:3px;"></div>
+              <div style="flex:1;height:14px;background:var(--s-bogey);opacity:0.4;border-radius:3px;"></div>
+              <div style="flex:1;height:20px;background:var(--s-double);opacity:0.4;border-radius:3px;"></div>
+              <div style="flex:1;height:12px;background:var(--s-bogey);opacity:0.4;border-radius:3px;"></div>
+            </div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--fg-subtle);margin-top:8px;">scorecard table below: SI · par · yards · gross · net · putts · accuracy · GIR per hole</div>
+          </div>
+        </div>
+
+        <!-- WF: compare -->
+        <div style="border:1.5px dashed var(--border-strong);border-radius:14px;padding:22px;background:var(--surface-2);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <span style="font-family:var(--disp);font-weight:600;font-size:16px;">Compare — round-vs-round &amp; same-hole</span>
+            <span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">/compare</span>
+          </div>
+          <div style="display:inline-flex;gap:6px;margin-bottom:16px;font-family:var(--mono);font-size:10px;">
+            <span style="padding:4px 9px;border-radius:6px;background:var(--accent-muted);color:var(--accent);">SCOPE-LOCKED: 18 vs 18</span>
+            <span style="padding:4px 9px;border-radius:6px;background:var(--surface);border:1px solid var(--border);color:var(--fg-subtle);">won't pair 9 + 18</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;"><div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-bottom:8px;">ROUND A ▾</div><div style="display:flex;gap:10px;"><div style="flex:1;height:38px;background:var(--sunken);border-radius:5px;"></div><div style="flex:1;height:38px;background:var(--sunken);border-radius:5px;"></div><div style="flex:1;height:38px;background:var(--sunken);border-radius:5px;"></div></div></div>
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;"><div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-bottom:8px;">ROUND B ▾</div><div style="display:flex;gap:10px;"><div style="flex:1;height:38px;background:var(--sunken);border-radius:5px;"></div><div style="flex:1;height:38px;background:var(--sunken);border-radius:5px;"></div><div style="flex:1;height:38px;background:var(--sunken);border-radius:5px;"></div></div></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;">
+            <div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-bottom:10px;">SAME-HOLE HISTORY (same course) · paired bars per hole, delta chips</div>
+            <div style="display:flex;align-items:flex-end;gap:8px;height:48px;">
+              <div style="flex:1;display:flex;gap:2px;align-items:flex-end;height:100%;"><div style="flex:1;background:var(--c1);opacity:0.35;height:80%;border-radius:2px;"></div><div style="flex:1;background:var(--c2);opacity:0.35;height:55%;border-radius:2px;"></div></div>
+              <div style="flex:1;display:flex;gap:2px;align-items:flex-end;height:100%;"><div style="flex:1;background:var(--c1);opacity:0.35;height:45%;border-radius:2px;"></div><div style="flex:1;background:var(--c2);opacity:0.35;height:60%;border-radius:2px;"></div></div>
+              <div style="flex:1;display:flex;gap:2px;align-items:flex-end;height:100%;"><div style="flex:1;background:var(--c1);opacity:0.35;height:90%;border-radius:2px;"></div><div style="flex:1;background:var(--c2);opacity:0.35;height:40%;border-radius:2px;"></div></div>
+              <div style="flex:1;display:flex;gap:2px;align-items:flex-end;height:100%;"><div style="flex:1;background:var(--c1);opacity:0.35;height:30%;border-radius:2px;"></div><div style="flex:1;background:var(--c2);opacity:0.35;height:50%;border-radius:2px;"></div></div>
+              <div style="flex:1;display:flex;gap:2px;align-items:flex-end;height:100%;"><div style="flex:1;background:var(--c1);opacity:0.35;height:60%;border-radius:2px;"></div><div style="flex:1;background:var(--c2);opacity:0.35;height:70%;border-radius:2px;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WF: hole analysis -->
+        <div style="border:1.5px dashed var(--border-strong);border-radius:14px;padding:22px;background:var(--surface-2);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <span style="font-family:var(--disp);font-weight:600;font-size:16px;">Hole analysis — by SI band, par type, nine</span>
+            <span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">/holes</span>
+          </div>
+          <div style="display:inline-flex;gap:6px;margin-bottom:16px;font-family:var(--mono);font-size:10px;">
+            <span style="padding:5px 11px;border-radius:7px;background:var(--accent-muted);color:var(--accent);">STROKE INDEX</span>
+            <span style="padding:5px 11px;border-radius:7px;background:var(--surface);border:1px solid var(--border);color:var(--fg-subtle);">PAR TYPE</span>
+            <span style="padding:5px 11px;border-radius:7px;background:var(--surface);border:1px solid var(--border);color:var(--fg-subtle);">FRONT / BACK</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;">
+              <div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-bottom:12px;">AVG vs PAR by SI BAND (1–6 / 7–12 / 13–18)</div>
+              <div style="display:flex;flex-direction:column;gap:9px;">
+                <div style="display:flex;align-items:center;gap:8px;"><span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);min-width:42px;">SI 1–6</span><div style="flex:1;height:16px;background:var(--sunken);border-radius:999px;overflow:hidden;"><div style="width:72%;height:100%;background:var(--s-double);border-radius:999px;"></div></div></div>
+                <div style="display:flex;align-items:center;gap:8px;"><span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);min-width:42px;">7–12</span><div style="flex:1;height:16px;background:var(--sunken);border-radius:999px;overflow:hidden;"><div style="width:55%;height:100%;background:var(--s-bogey);border-radius:999px;"></div></div></div>
+                <div style="display:flex;align-items:center;gap:8px;"><span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);min-width:42px;">13–18</span><div style="flex:1;height:16px;background:var(--sunken);border-radius:999px;overflow:hidden;"><div style="width:60%;height:100%;background:var(--s-double);border-radius:999px;"></div></div></div>
+              </div>
+            </div>
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;">
+              <div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-bottom:12px;">AVG vs PAR by PAR TYPE (3 / 4 / 5)</div>
+              <div style="display:flex;align-items:flex-end;gap:14px;height:92px;justify-content:center;">
+                <div style="text-align:center;width:48px;"><div style="height:64px;background:var(--s-double);opacity:0.5;border-radius:5px;"></div><div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-top:6px;">par 3</div></div>
+                <div style="text-align:center;width:48px;"><div style="height:50px;background:var(--s-bogey);opacity:0.5;border-radius:5px;"></div><div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-top:6px;">par 4</div></div>
+                <div style="text-align:center;width:48px;"><div style="height:30px;background:var(--s-bogey);opacity:0.5;border-radius:5px;"></div><div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-top:6px;">par 5</div></div>
+              </div>
+            </div>
+          </div>
+          <p style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);margin-top:12px;">bars illustrative · real aggregates computed from per-hole scoreVsPar grouped across all rounds of matching scope</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 05 · QUESTIONS ============ -->
+    <section id="questions" data-screen-label="Open questions" style="padding:72px 0;scroll-margin-top:72px;">
+      <div style="font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:0.12em;margin-bottom:14px;">05 — METRIC DECISIONS · LOCKED</div>
+      <h2 style="font-family:var(--disp);font-weight:700;font-size:34px;letter-spacing:-0.02em;margin-bottom:14px;">What we measure</h2>
+      <p style="font-size:16px;color:var(--fg-muted);max-width:66ch;margin-bottom:20px;">Resolved. Four derivations go in for free, three new fields get added to the model, and three are out of scope. The two model changes are flagged for Claude Code below with concrete schema — note that historical rounds (your seed data) won't carry them, so every treatment must degrade gracefully to “not tracked”.</p>
+
+      <!-- free to add -->
+      <div style="background:var(--good-bg);border:1px solid oklch(0.62 0.12 200 / 0.3);border-radius:14px;padding:22px 24px;margin-bottom:16px;">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--good);letter-spacing:0.08em;margin-bottom:16px;">✓ CONFIRMED — all four going in · derive from existing fields, no schema change</div>
+        <div style="display:grid;gap:12px;">
+          <div style="display:flex;gap:14px;"><span style="font-family:var(--disp);font-weight:600;font-size:14px;min-width:150px;">Scrambling %</span><span style="font-size:13.5px;color:var(--fg-muted);">Par-or-better on holes you missed the green = <span style="font-family:var(--mono);font-size:12px;">!gir &amp;&amp; scoreVsPar ≤ 0</span>. Directly addresses short-game recovery. Recommend adding to derivations.</span></div>
+          <div style="display:flex;gap:14px;"><span style="font-family:var(--disp);font-weight:600;font-size:14px;min-width:150px;">Score distribution</span><span style="font-size:13.5px;color:var(--fg-muted);">Birdie / par / bogey / double / triple+ counts from <span style="font-family:var(--mono);font-size:12px;">scoreVsPar</span> buckets. Powers the score-mix bar.</span></div>
+          <div style="display:flex;gap:14px;"><span style="font-family:var(--disp);font-weight:600;font-size:14px;min-width:150px;">Miss direction</span><span style="font-size:13.5px;color:var(--fg-muted);">Left / right tendency off the tee from <span style="font-family:var(--mono);font-size:12px;">accuracy</span> on par-4/5s. A two-sided bias chart.</span></div>
+          <div style="display:flex;gap:14px;"><span style="font-family:var(--disp);font-weight:600;font-size:14px;min-width:150px;">Putts on GIR vs miss</span><span style="font-size:13.5px;color:var(--fg-muted);">Splits putting from approach noise. Possible from <span style="font-family:var(--mono);font-size:12px;">putts</span> + <span style="font-family:var(--mono);font-size:12px;">gir</span>, but tiny samples — label as low-confidence.</span></div>
+        </div>
+      </div>
+
+      <!-- approved model changes -->
+      <div style="background:var(--accent-muted);border:1px solid oklch(0.58 0.17 256 / 0.28);border-radius:14px;padding:22px 24px;margin-bottom:16px;">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.08em;margin-bottom:16px;">+ APPROVED MODEL CHANGES — for Claude Code · new fields, nullable so seed rounds stay valid</div>
+        <div style="display:grid;gap:14px;">
+          <div style="display:flex;gap:14px;">
+            <span style="font-family:var(--disp);font-weight:600;font-size:14px;min-width:150px;">Penalties</span>
+            <div style="font-size:13.5px;color:var(--fg-muted);">
+              Per-hole penalty strokes — lets a 10 or 9 be attributed instead of guessed at. Surfaces as a penalties stat + a flag on the score-to-par strip.
+              <div style="font-family:var(--mono);font-size:11.5px;color:var(--fg);background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:8px 10px;margin-top:8px;">HoleScore.penalties: number   <span style="color:var(--fg-subtle);">// default 0; new derivation totalPenalties()</span></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:14px;">
+            <span style="font-family:var(--disp);font-weight:600;font-size:14px;min-width:150px;">Accuracy granularity</span>
+            <div style="font-size:13.5px;color:var(--fg-muted);">
+              Two new miss values beyond left/right. Upgrades the bias chart to a full miss-dispersion (left · right · long · short). Optional value so existing rounds keep <span style="font-family:var(--mono);font-size:12px;">hit/left/right</span>.
+              <div style="font-family:var(--mono);font-size:11.5px;color:var(--fg);background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:8px 10px;margin-top:8px;">Accuracy = "hit" | "left" | "right" | "long" | "short"</div>
+              <div style="font-family:var(--mono);font-size:11px;color:var(--accent);margin-top:7px;">↳ confirm the exact enum — open to a separate tee/approach split if you'd rather track both phases</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:14px;">
+            <span style="font-family:var(--disp);font-weight:600;font-size:14px;min-width:150px;">Club off the tee</span>
+            <div style="font-size:13.5px;color:var(--fg-muted);">
+              The club hit on each tee shot. Without it, accuracy swings can't be attributed to a club change — the dashboard can show fairways fell 86%→64%, but not that the driver caused it. Your tracking app captures this; it isn't in the seed rounds. Once stored, the Coach can tie the accuracy/distance trade-off to specific clubs.
+              <div style="font-family:var(--mono);font-size:11.5px;color:var(--fg);background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:8px 10px;margin-top:8px;">HoleScore.teeClub?: string | null   <span style="color:var(--fg-subtle);">// nullable; absent on historical rounds</span></div>
+              <div style="font-family:var(--mono);font-size:11px;color:var(--accent);margin-top:7px;">↳ to wire up with Claude Code — confirm whether it's a free enum or a fixed club list</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- declined -->
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:22px 24px;">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);letter-spacing:0.08em;margin-bottom:16px;">✕ OUT OF SCOPE — not building; revisit later if needed</div>
+        <div style="display:grid;gap:12px;opacity:0.82;">
+          <div style="display:flex;gap:14px;"><span style="font-family:var(--disp);font-weight:600;font-size:14px;min-width:150px;text-decoration:line-through;text-decoration-color:var(--fg-subtle);">Lag putting</span><span style="font-size:13.5px;color:var(--fg-muted);">Needs first-putt distance; putt <em>count</em> can't isolate it. 3-putt count remains the only proxy and is labelled as such.</span></div>
+          <div style="display:flex;gap:14px;"><span style="font-family:var(--disp);font-weight:600;font-size:14px;min-width:150px;text-decoration:line-through;text-decoration-color:var(--fg-subtle);">Greenside bunkers</span><span style="font-size:13.5px;color:var(--fg-muted);">No sand / up-and-down capture. Penalties + scrambling % will partially illuminate short-game cost instead.</span></div>
+          <div style="display:flex;gap:14px;"><span style="font-family:var(--disp);font-weight:600;font-size:14px;min-width:150px;text-decoration:line-through;text-decoration-color:var(--fg-subtle);">Strokes gained</span><span style="font-size:13.5px;color:var(--fg-muted);">Requires an expected-strokes baseline dataset that doesn't exist in the model. Shelved.</span></div>
+        </div>
+      </div>
+
+      <div style="margin-top:40px;padding:24px 26px;background:var(--surface);border-radius:14px;box-shadow:var(--e1);">
+        <div style="font-family:var(--disp);font-weight:600;font-size:16px;margin-bottom:10px;">Next — dashboard, two directions</div>
+        <p style="font-size:14.5px;color:var(--fg-muted);line-height:1.6;max-width:72ch;">Direction's locked. I'll build the <strong style="color:var(--fg);">dashboard in two directions</strong> to compare — both leading with “am I improving?” and “where am I losing strokes?”, against this token system and the Archivo type. Penalties and the expanded accuracy will appear as “not tracked yet” on the seed rounds until you log new ones. One thing to confirm when you get a sec: the exact accuracy enum above.</p>
+      </div>
+    </section>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    // ---- chart geometry (viewBox 320x140) ----
+    const X = [40, 172, 304];
+    const padT = 16, plotH = 96, baseY = 112;
+    const yOf = (v, min, max) => padT + ((v - min) / (max - min)) * plotH;
+
+    // score vs par: 37,36,34  (lower = better = higher on chart)
+    const sv = [37, 36, 34];
+    const sy = sv.map((v) => yOf(v, 32, 40));
+    const scoreLine = X.map((x, i) => `${x},${sy[i].toFixed(1)}`).join(" ");
+    const scoreArea = `${X[0]},${baseY} ${scoreLine} ${X[X.length - 1]},${baseY}`;
+    const scoreDots = X.map((x, i) => ({ x, y: +sy[i].toFixed(1) }));
+
+    // putts: 42,43,35
+    const pv = [42, 43, 35];
+    const py = pv.map((v) => yOf(v, 33, 45));
+    const puttsLine = X.map((x, i) => `${x},${py[i].toFixed(1)}`).join(" ");
+    const puttsArea = `${X[0]},${baseY} ${puttsLine} ${X[X.length - 1]},${baseY}`;
+    const puttsDots = X.map((x, i) => ({ x, y: +py[i].toFixed(1) }));
+
+    // GIR strip — R1 had 1 GIR (hole 7, index 6)
+    const girStrip = Array.from({ length: 18 }, (_, i) => {
+      const hit = i === 6;
+      return {
+        bg: hit ? "var(--c1)" : "var(--sunken)",
+        ring: hit ? "0 0 0 1px var(--c1), 0 2px 6px oklch(0.62 0.15 256 / 0.4)" : "inset 0 0 0 1px var(--border)",
+      };
+    });
+
+    // Round 1 per-hole score-to-par bars (gross + vsPar)
+    const r1Gross = [10, 7, 7, 5, 6, 6, 3, 6, 5, 5, 6, 5, 5, 6, 9, 4, 5, 7];
+    const r1Par   = [4, 5, 4, 3, 4, 4, 3, 4, 4, 4, 4, 3, 4, 4, 4, 3, 4, 5];
+    const colorFor = (vsPar) => {
+      if (vsPar <= 0) return "var(--s-par)";
+      if (vsPar === 1) return "var(--s-bogey)";
+      if (vsPar === 2) return "var(--s-double)";
+      return "var(--s-triple)";
+    };
+    const maxVs = 6, maxH = 64;
+    const holeBars = r1Gross.map((g, i) => {
+      const vsPar = g - r1Par[i];
+      const h = vsPar <= 0 ? 5 : Math.max(8, Math.round((vsPar / maxVs) * maxH));
+      return { hole: i + 1, gross: g, vsPar, h, color: colorFor(vsPar) };
+    });
+
+    return { scoreLine, scoreArea, scoreDots, puttsLine, puttsArea, puttsDots, girStrip, holeBars };
+  }
+}
+</script>
+</body>
+</html>

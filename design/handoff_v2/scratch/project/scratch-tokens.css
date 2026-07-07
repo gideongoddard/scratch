@@ -1,0 +1,175 @@
+/* =============================================================================
+   SCRATCH — Design Tokens
+   Golf performance app · "modern sports-science" direction
+   Warm greige base · clay/terracotta accent · teal counterpoint · golf-aware score ramp
+
+   Target: Next.js + Tailwind v4 (CSS-first config).
+   Drop this into app/globals.css (or import it). Tailwind v4 reads @theme to
+   generate utilities (bg-surface, text-fg-muted, rounded-card, shadow-e2,
+   text-score-double, font-display, etc). Raw CSS vars are mirrored on :root so
+   non-Tailwind code (Recharts series colors, inline styles) can read them too.
+
+   Colors are authored in oklch. Light is the default; .dark flips the neutrals
+   and elevation. Accent + chart hues hold roughly constant across modes.
+============================================================================= */
+
+@import "tailwindcss";
+
+/* ----------------------------------------------------------------------------
+   1. THEME  (Tailwind v4 utility generation)
+---------------------------------------------------------------------------- */
+@theme {
+  /* — Type families ——————————————————————————————————————————————— */
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif; /* headlines + all numerals — connected, neutral figures */
+  --font-sans:    "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif; /* body + UI */
+  --font-mono:    "JetBrains Mono", ui-monospace, "Cascadia Code", monospace; /* micro-labels, SI, yards */
+
+  /* — Type scale ———————————————————————————————————————————————————
+     Numerals use --font-display with tabular figures + tight tracking. */
+  --text-micro:      0.6875rem;  /* 11px — mono labels, SI/par chips      */
+  --text-micro--line-height: 1rem;
+  --text-caption:    0.8125rem;  /* 13px — secondary meta                 */
+  --text-caption--line-height: 1.15rem;
+  --text-body:       0.9375rem;  /* 15px — default body                   */
+  --text-body--line-height: 1.45rem;
+  --text-lead:       1.0625rem;  /* 17px                                  */
+  --text-lead--line-height: 1.6rem;
+  --text-h3:         1.125rem;   /* 18px                                  */
+  --text-h3--line-height: 1.4rem;
+  --text-h2:         1.375rem;   /* 22px                                  */
+  --text-h2--line-height: 1.6rem;
+  --text-h1:         1.875rem;   /* 30px                                  */
+  --text-h1--line-height: 2.1rem;
+  --text-stat:       2.75rem;    /* 44px — stat-tile numeral              */
+  --text-stat--line-height: 2.7rem;
+  --text-hero:       3.75rem;    /* 60px — hero numeral                   */
+  --text-hero--line-height: 3.5rem;
+
+  /* — Neutral base (cool grey) — light mode defaults ——————————————— */
+  --color-bg:           oklch(0.983 0.007 74);   /* warm paper          */
+  --color-surface:      oklch(0.997 0.004 80);
+  --color-surface-2:    oklch(0.963 0.009 74);
+  --color-surface-sunken:oklch(0.944 0.011 70);
+  --color-border:       oklch(0.902 0.011 68);
+  --color-border-strong:oklch(0.83 0.015 64);
+  --color-fg:           oklch(0.255 0.016 52);   /* warm espresso ink   */
+  --color-fg-muted:     oklch(0.505 0.018 52);
+  --color-fg-subtle:    oklch(0.645 0.015 58);
+
+  /* — Accent (clay / terracotta — warm with edge) ——————————————————— */
+  --color-accent:        oklch(0.575 0.138 46);
+  --color-accent-hover:  oklch(0.51 0.142 44);
+  --color-accent-fg:     oklch(0.99 0.004 80);
+  --color-accent-muted:  oklch(0.952 0.034 54); /* warm tint surface     */
+  --color-accent-ring:   oklch(0.575 0.138 46 / 0.35);
+  --color-accent-2:      oklch(0.5 0.132 350);  /* plum — Coach gradient partner */
+
+  /* — Semantic deltas (golf: LOWER is better) ——————————————————————
+     Warm/cool tension: good = cool teal, bad = warm brick red. */
+  --color-good:        oklch(0.6 0.092 192);   /* improvement / under target */
+  --color-good-bg:     oklch(0.952 0.032 192);
+  --color-bad:         oklch(0.57 0.162 22);   /* regression / over target   */
+  --color-bad-bg:      oklch(0.953 0.042 24);
+  --color-warn:        oklch(0.72 0.125 68);
+  --color-neutral-delta:oklch(0.645 0.015 58);
+
+  /* — Score-to-par ramp (sequential by severity) ———————————————————
+     A diverging/sequential domain scale, not a categorical accent set:
+     cool & calm for good scores, escalating warmth for blow-ups. */
+  --color-score-eagle:  oklch(0.54 0.105 210);  /* eagle or better */
+  --color-score-birdie: oklch(0.6 0.092 192);   /* birdie          */
+  --color-score-par:    oklch(0.73 0.014 68);   /* par (warm neutral) */
+  --color-score-bogey:  oklch(0.79 0.105 82);   /* +1 — soft gold  */
+  --color-score-double: oklch(0.655 0.152 48);  /* +2 — burnt orange */
+  --color-score-triple: oklch(0.515 0.182 29);  /* +3 or worse — deep brick */
+
+  /* — Categorical chart palette ————————————————————————————————————
+     Shared chroma/lightness, hue-stepped — for multi-series + multi-round. */
+  --color-chart-1: oklch(0.64 0.122 196);  /* teal (primary series) */
+  --color-chart-2: oklch(0.575 0.138 46);  /* clay                  */
+  --color-chart-3: oklch(0.5 0.132 350);   /* plum                  */
+  --color-chart-4: oklch(0.74 0.11 82);    /* gold                  */
+  --color-chart-5: oklch(0.55 0.11 250);   /* indigo                */
+  --color-chart-6: oklch(0.62 0.1 150);    /* sage                  */
+  --color-chart-grid: oklch(0.902 0.011 68);
+  --color-chart-axis: oklch(0.645 0.015 58);
+
+  /* — Radii ————————————————————————————————————————————————————————— */
+  --radius-xs:   4px;
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-card: 14px;
+  --radius-lg:   18px;
+  --radius-xl:   24px;
+  --radius-pill: 999px;
+
+  /* — Spacing scale is Tailwind's default 4px base (space-1 = 4px …).
+     Component rhythm uses: 2,4,8,12,16,20,24,32,40,48,64. ————————————— */
+
+  /* — Elevation (light) ————————————————————————————————————————————— */
+  --shadow-e0: 0 0 0 1px oklch(0.902 0.011 68);
+  --shadow-e1: 0 1px 2px oklch(0.3 0.03 58 / 0.08), 0 0 0 1px oklch(0.902 0.011 68);
+  --shadow-e2: 0 5px 16px oklch(0.3 0.03 58 / 0.1), 0 0 0 1px oklch(0.902 0.011 68);
+  --shadow-e3: 0 16px 38px oklch(0.32 0.035 56 / 0.15), 0 0 0 1px oklch(0.902 0.011 68);
+  --shadow-focus: 0 0 0 3px oklch(0.575 0.138 46 / 0.35);
+}
+
+/* ----------------------------------------------------------------------------
+   2. DARK MODE  (flip neutrals + elevation; accent/chart hold)
+   Toggle via a `.dark` class on <html> (class strategy).
+---------------------------------------------------------------------------- */
+.dark {
+  --color-bg:            oklch(0.185 0.011 56);   /* warm charcoal       */
+  --color-surface:       oklch(0.224 0.013 56);
+  --color-surface-2:     oklch(0.256 0.014 56);
+  --color-surface-sunken:oklch(0.166 0.011 56);
+  --color-border:        oklch(0.31 0.015 58);
+  --color-border-strong: oklch(0.41 0.017 58);
+  --color-fg:            oklch(0.955 0.006 70);
+  --color-fg-muted:      oklch(0.72 0.013 64);
+  --color-fg-subtle:     oklch(0.56 0.013 60);
+
+  --color-accent:        oklch(0.66 0.14 50);
+  --color-accent-hover:  oklch(0.72 0.135 50);
+  --color-accent-muted:  oklch(0.32 0.05 48);
+
+  --color-good-bg:       oklch(0.3 0.04 195);
+  --color-bad-bg:        oklch(0.32 0.05 26);
+
+  --color-chart-grid:    oklch(0.31 0.015 58);
+  --color-chart-axis:    oklch(0.56 0.013 60);
+
+  --shadow-e0: 0 0 0 1px oklch(0.3 0.016 262);
+  --shadow-e1: 0 1px 2px oklch(0 0 0 / 0.4), 0 0 0 1px oklch(0.3 0.016 262);
+  --shadow-e2: 0 4px 14px oklch(0 0 0 / 0.45), 0 0 0 1px oklch(0.3 0.016 262);
+  --shadow-e3: 0 14px 36px oklch(0 0 0 / 0.55), 0 0 0 1px oklch(0.32 0.016 262);
+}
+
+/* ----------------------------------------------------------------------------
+   3. PRIMITIVE RESETS
+---------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+body { min-height: 100dvh; }
+
+/* All numerals tabular + lined so columns of scores align and don't jitter. */
+.tnum { font-variant-numeric: tabular-nums lining-nums; font-feature-settings: "tnum" 1; }
+
+/* ----------------------------------------------------------------------------
+   USAGE NOTES
+   • Recharts: pass CSS vars to series, e.g.
+       <Line stroke="var(--color-chart-1)" /> ,  fill="var(--color-good)"
+   • Score cells: map scoreVsPar → --color-score-{par|bogey|double|triple}.
+   • Deltas: improvement uses --color-good, regression --color-bad. Because
+     lower gross is better, a NEGATIVE delta is good — color by meaning, not sign.
+   • Never render a 9-hole total in the same axis/column as an 18-hole total;
+     tag scope and split or normalize first (see IA · "9 vs 18 rule").
+---------------------------------------------------------------------------- */

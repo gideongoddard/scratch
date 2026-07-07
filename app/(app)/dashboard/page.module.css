@@ -1,0 +1,547 @@
+/* ===== Page header ===== */
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.headerTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+}
+
+.headerSub {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-subtle);
+  font-weight: 400;
+}
+
+
+/* ===== Section divider ===== */
+.sectionDivider {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 22px 2px 12px;
+}
+
+.sectionLabel {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--fg-muted);
+  white-space: nowrap;
+}
+
+.sectionRule {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ===== KPI cluster layout ===== */
+.kpiRow {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.kpiCluster {
+  display: flex;
+  flex-direction: column;
+}
+
+.kpiClusterLabel {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--fg-subtle);
+  margin-bottom: 8px;
+}
+
+.kpiScoringCluster {
+  flex: 1 1 230px;
+  min-width: 230px;
+}
+
+.kpiComponentCluster {
+  flex: 2 1 460px;
+  min-width: 300px;
+}
+
+.kpiGrid2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 11px;
+  flex: 1;
+}
+
+/* Merged scoring tile */
+.scoringTile {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--e1);
+  padding: 16px 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.scoringTileGrossLabel {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 10.5px;
+  color: var(--fg-subtle);
+}
+
+.scoringTileGrossValue {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 42px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums lining-nums;
+  margin-top: 5px;
+}
+
+.scoringTileDivider {
+  margin-top: 16px;
+  padding-top: 13px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.scoringTileVsParGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.scoringTileVsParLabel {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 10px;
+  color: var(--fg-subtle);
+}
+
+.scoringTileVsParRow {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+
+.scoringTileVsParValue {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.scoringTileVsParDelta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.scoringTileSparkSpacer {
+  flex: 1;
+}
+
+.scoringTileNote {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 9.5px;
+  color: var(--fg-subtle);
+  margin-top: 9px;
+}
+
+.kpiGridAuto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 11px;
+  flex: 1;
+}
+
+/* ===== KPI tile ===== */
+.kpiTile {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--e1);
+  padding: 15px 16px;
+}
+
+.kpiTileTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  min-height: 16px;
+}
+
+.kpiTileLabel {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 10.5px;
+  color: var(--fg-subtle);
+}
+
+.kpiChip {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  padding: 2px 6px;
+  border-radius: var(--radius-pill);
+}
+
+.kpiTileBottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.kpiValue {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.kpiSuffix {
+  font-size: 14px;
+  color: var(--fg-subtle);
+}
+
+.kpiNote {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--fg-subtle);
+  margin-top: 5px;
+}
+
+.kpiSpark {
+  width: 60px;
+  height: 24px;
+  flex: 0 0 auto;
+}
+
+/* GIR mini dots (3×6 grid in KPI tile) */
+.girMiniGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2.5px;
+  width: 60px;
+}
+
+.girDot {
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+/* ===== Charts row: fairways + greens ===== */
+.chartsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--e1);
+  padding: 18px 20px;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.cardSubtitle {
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin-bottom: 16px;
+}
+
+/* Fairway bars */
+.fairwayList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fairwayRow {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.fairwayMeta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.fairwayMetaLabel {
+  color: var(--fg-muted);
+}
+
+.fairwayMetaPct {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.fairwayTrack {
+  height: 13px;
+  border-radius: var(--radius-pill);
+  background: var(--sunken);
+  overflow: hidden;
+}
+
+.fairwayFill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+}
+
+/* GIR dots */
+.girList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.girRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.girMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.girMetaLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-muted);
+}
+
+.girMetaCount {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.girMetaCountDenom {
+  font-size: 10px;
+  color: var(--fg-subtle);
+}
+
+.girDotGrid {
+  display: grid;
+  grid-template-columns: repeat(18, 1fr);
+  gap: 3px;
+}
+
+.girDotHit {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--c1);
+  box-shadow: 0 0 0 1px var(--c1), 0 1px 4px oklch(0.64 0.122 196 / 0.5);
+}
+
+.girDotMiss {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+/* ===== Score breakdown ===== */
+.breakdownCard {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--e1);
+  padding: 18px 20px;
+}
+
+.breakdownHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.breakdownTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.breakdownTitleSub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-subtle);
+  font-weight: 400;
+}
+
+.legend {
+  display: flex;
+  gap: 11px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--fg-subtle);
+  flex-wrap: wrap;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.legendSwatch {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  flex: 0 0 auto;
+}
+
+.breakdownRows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.breakdownRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.breakdownLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-muted);
+  min-width: 48px;
+  white-space: nowrap;
+}
+
+.breakdownBar {
+  flex: 1;
+  display: flex;
+  height: 26px;
+  border-radius: 7px;
+  overflow: hidden;
+  gap: 2px;
+}
+
+.breakdownSeg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.breakdownSegCount {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: oklch(0.26 0.02 56 / 0.74);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.breakdownNote {
+  font-size: 11.5px;
+  color: var(--fg-muted);
+  margin-top: 14px;
+  line-height: 1.5;
+}
+
+/* ===== Empty state ===== */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 500px;
+  gap: 18px;
+}
+
+.emptyIcon {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: var(--accent-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emptyTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.emptyBody {
+  font-size: 15px;
+  color: var(--fg-muted);
+  max-width: 42ch;
+  line-height: 1.55;
+}
+
+.emptyActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.emptyActionPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 2px 10px oklch(0.575 0.138 46 / 0.3);
+  text-decoration: none;
+}
+
+.emptyActionSecondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 11px 18px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--fg-muted);
+  font-weight: 500;
+  font-size: 14px;
+  text-decoration: none;
+}

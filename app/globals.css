@@ -1,26 +1,86 @@
-@import "tailwindcss";
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* — Type families */
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
+
+  /* — Neutrals (warm greige — light mode) */
+  --bg:            oklch(0.983 0.007 74);
+  --surface:       oklch(0.997 0.004 80);
+  --surface-2:     oklch(0.963 0.009 74);
+  --sunken:        oklch(0.944 0.011 70);
+  --border:        oklch(0.902 0.011 68);
+  --border-strong: oklch(0.83 0.015 64);
+  --fg:            oklch(0.255 0.016 52);
+  --fg-muted:      oklch(0.505 0.018 52);
+  --fg-subtle:     oklch(0.645 0.015 58);
+
+  /* — Accent (clay / terracotta) */
+  --accent:       oklch(0.575 0.138 46);
+  --accent-hover: oklch(0.51 0.142 44);
+  --accent-fg:    oklch(0.99 0.004 80);
+  --accent-muted: oklch(0.952 0.034 54);
+  --accent-ring:  oklch(0.575 0.138 46 / 0.35);
+
+  /* — Semantic deltas */
+  --good:    oklch(0.6 0.092 192);
+  --good-bg: oklch(0.952 0.032 192);
+  --bad:     oklch(0.57 0.162 22);
+  --bad-bg:  oklch(0.953 0.042 24);
+  --warn:    oklch(0.72 0.125 68);
+
+  /* — Score-to-par ramp */
+  --s-eagle:  oklch(0.54 0.105 210);
+  --s-birdie: oklch(0.6 0.092 192);
+  --s-par:    oklch(0.73 0.014 68);
+  --s-bogey:  oklch(0.79 0.105 82);
+  --s-double: oklch(0.655 0.152 48);
+  --s-triple: oklch(0.515 0.182 29);
+
+  /* — Chart palette */
+  --c1: oklch(0.64 0.122 196);
+  --c2: oklch(0.575 0.138 46);
+  --c3: oklch(0.5 0.132 350);
+  --c4: oklch(0.74 0.11 82);
+  --c5: oklch(0.55 0.11 250);
+  --c6: oklch(0.62 0.1 150);
+
+  /* — Radii */
+  --radius-xs:   4px;
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-card: 14px;
+  --radius-lg:   18px;
+  --radius-xl:   24px;
+  --radius-pill: 999px;
+
+  /* — Elevation */
+  --e0: 0 0 0 1px oklch(0.902 0.011 68);
+  --e1: 0 1px 2px oklch(0.3 0.03 58 / 0.08), 0 0 0 1px oklch(0.902 0.011 68);
+  --e2: 0 5px 16px oklch(0.3 0.03 58 / 0.1), 0 0 0 1px oklch(0.902 0.011 68);
+  --e3: 0 16px 38px oklch(0.32 0.035 56 / 0.15), 0 0 0 1px oklch(0.902 0.011 68);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  background: var(--bg);
+  color: var(--fg);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100dvh;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1;
 }

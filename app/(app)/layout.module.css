@@ -1,0 +1,105 @@
+.shell {
+  display: flex;
+  min-height: 100dvh;
+  background: var(--bg);
+}
+
+.sidebar {
+  width: 206px;
+  flex: 0 0 206px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  overflow-y: auto;
+}
+
+.logoRow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 10px 16px;
+}
+
+.logoMark {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px oklch(0.575 0.138 46 / 0.35);
+  flex: 0 0 auto;
+}
+
+.logoText {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.handicapRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 11px;
+  margin-bottom: 8px;
+  border-radius: 9px;
+  background: var(--surface-2);
+}
+
+.handicapLabel {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--fg-subtle);
+}
+
+.handicapValue {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.logRoundBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px;
+  border-radius: 9px;
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+  font-size: 13.5px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 10px oklch(0.575 0.138 46 / 0.3);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.logRoundBtn:hover {
+  background: var(--accent-hover);
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  padding: 26px 30px;
+  background: var(--bg);
+}

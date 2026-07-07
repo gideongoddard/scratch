@@ -1,0 +1,601 @@
+{
+  "player": {
+    "vpar_handicap_index": 29.8,
+    "notes": "Returning to golf after ~1 year break. Conservative swing, working up club selection. 7i-and-below for early rounds; driver reintroduced in the par-72 round. Main weaknesses identified: greenside bunkers, lag putting (long first putts), approach play / GIR. Putting stroke itself is sound."
+  },
+  "metadata": {
+    "stat_legend": {
+      "SI": "Stroke Index (hole difficulty ranking 1-18)",
+      "Par": "Hole par",
+      "Yards": "Hole length in yards",
+      "Gross": "Actual strokes taken",
+      "Net": "Gross minus handicap strokes received on the hole",
+      "Accuracy": "Tee shot direction: 'hit' (on target), 'left', 'right'",
+      "Putts": "Number of putts on the hole",
+      "GIR": "Green in Regulation (true/false)"
+    },
+    "accuracy_values": [
+      "hit",
+      "left",
+      "right"
+    ]
+  },
+  "rounds": [
+    {
+      "round_id": 1,
+      "label": "Round 1 (par 70 course)",
+      "course_par": 70,
+      "total_yards": 5980,
+      "gross": 107,
+      "net": 59,
+      "total_putts": 42,
+      "gir_count": 1,
+      "holes": [
+        {
+          "hole": 1,
+          "si": 10,
+          "par": 4,
+          "yards": 351,
+          "gross": 10,
+          "net": 7,
+          "accuracy": "right",
+          "putts": 3
+        },
+        {
+          "hole": 2,
+          "si": 6,
+          "par": 5,
+          "yards": 509,
+          "gross": 7,
+          "net": 4,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 3,
+          "si": 18,
+          "par": 4,
+          "yards": 314,
+          "gross": 7,
+          "net": 5,
+          "accuracy": "hit",
+          "putts": 3
+        },
+        {
+          "hole": 4,
+          "si": 14,
+          "par": 3,
+          "yards": 183,
+          "gross": 5,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 3
+        },
+        {
+          "hole": 5,
+          "si": 4,
+          "par": 4,
+          "yards": 357,
+          "gross": 6,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 6,
+          "si": 16,
+          "par": 4,
+          "yards": 337,
+          "gross": 6,
+          "net": 4,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 7,
+          "si": 8,
+          "par": 3,
+          "yards": 165,
+          "gross": 3,
+          "net": 0,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 8,
+          "si": 2,
+          "par": 4,
+          "yards": 424,
+          "gross": 6,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 9,
+          "si": 12,
+          "par": 4,
+          "yards": 350,
+          "gross": 5,
+          "net": 2,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 10,
+          "si": 9,
+          "par": 4,
+          "yards": 348,
+          "gross": 5,
+          "net": 2,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 11,
+          "si": 5,
+          "par": 4,
+          "yards": 349,
+          "gross": 6,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 3
+        },
+        {
+          "hole": 12,
+          "si": 17,
+          "par": 3,
+          "yards": 160,
+          "gross": 5,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 3
+        },
+        {
+          "hole": 13,
+          "si": 13,
+          "par": 4,
+          "yards": 300,
+          "gross": 5,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 14,
+          "si": 1,
+          "par": 4,
+          "yards": 421,
+          "gross": 6,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 3
+        },
+        {
+          "hole": 15,
+          "si": 3,
+          "par": 4,
+          "yards": 423,
+          "gross": 9,
+          "net": 6,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 16,
+          "si": 15,
+          "par": 3,
+          "yards": 163,
+          "gross": 4,
+          "net": 2,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 17,
+          "si": 7,
+          "par": 4,
+          "yards": 352,
+          "gross": 5,
+          "net": 2,
+          "accuracy": "right",
+          "putts": 2
+        },
+        {
+          "hole": 18,
+          "si": 11,
+          "par": 5,
+          "yards": 474,
+          "gross": 7,
+          "net": 4,
+          "accuracy": "hit",
+          "putts": 2
+        }
+      ]
+    },
+    {
+      "round_id": 2,
+      "label": "Round 2 (par 70 course, same as round 1)",
+      "course_par": 70,
+      "total_yards": 5980,
+      "gross": 106,
+      "net": 64,
+      "total_putts": 43,
+      "gir_count": 2,
+      "holes": [
+        {
+          "hole": 1,
+          "si": 10,
+          "par": 4,
+          "yards": 351,
+          "gross": 7,
+          "net": 5,
+          "accuracy": "hit",
+          "putts": 3
+        },
+        {
+          "hole": 2,
+          "si": 6,
+          "par": 5,
+          "yards": 509,
+          "gross": 8,
+          "net": 5,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 3,
+          "si": 18,
+          "par": 4,
+          "yards": 314,
+          "gross": 5,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 4,
+          "si": 14,
+          "par": 3,
+          "yards": 183,
+          "gross": 4,
+          "net": 2,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 5,
+          "si": 4,
+          "par": 4,
+          "yards": 357,
+          "gross": 7,
+          "net": 4,
+          "accuracy": "right",
+          "putts": 3
+        },
+        {
+          "hole": 6,
+          "si": 16,
+          "par": 4,
+          "yards": 337,
+          "gross": 5,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 7,
+          "si": 8,
+          "par": 3,
+          "yards": 165,
+          "gross": 3,
+          "net": 1,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 8,
+          "si": 2,
+          "par": 4,
+          "yards": 424,
+          "gross": 6,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 3
+        },
+        {
+          "hole": 9,
+          "si": 12,
+          "par": 4,
+          "yards": 350,
+          "gross": 7,
+          "net": 5,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 10,
+          "si": 9,
+          "par": 4,
+          "yards": 348,
+          "gross": 5,
+          "net": 3,
+          "accuracy": "right",
+          "putts": 2
+        },
+        {
+          "hole": 11,
+          "si": 5,
+          "par": 4,
+          "yards": 349,
+          "gross": 7,
+          "net": 4,
+          "accuracy": "hit",
+          "putts": 3
+        },
+        {
+          "hole": 12,
+          "si": 17,
+          "par": 3,
+          "yards": 160,
+          "gross": 5,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 3
+        },
+        {
+          "hole": 13,
+          "si": 13,
+          "par": 4,
+          "yards": 300,
+          "gross": 4,
+          "net": 2,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 14,
+          "si": 1,
+          "par": 4,
+          "yards": 421,
+          "gross": 6,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 15,
+          "si": 3,
+          "par": 4,
+          "yards": 423,
+          "gross": 8,
+          "net": 5,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 16,
+          "si": 15,
+          "par": 3,
+          "yards": 163,
+          "gross": 5,
+          "net": 3,
+          "accuracy": "right",
+          "putts": 3
+        },
+        {
+          "hole": 17,
+          "si": 7,
+          "par": 4,
+          "yards": 352,
+          "gross": 6,
+          "net": 4,
+          "accuracy": "right",
+          "putts": 3
+        },
+        {
+          "hole": 18,
+          "si": 11,
+          "par": 5,
+          "yards": 474,
+          "gross": 8,
+          "net": 6,
+          "accuracy": "hit",
+          "putts": 2
+        }
+      ]
+    },
+    {
+      "round_id": 3,
+      "label": "Round 3 (par 72 course, driver reintroduced, bunker trouble holes 1 & 3)",
+      "course_par": 72,
+      "total_yards": 6346,
+      "gross": 106,
+      "net": 64,
+      "total_putts": 35,
+      "gir_count": 1,
+      "holes": [
+        {
+          "hole": 1,
+          "si": 17,
+          "par": 4,
+          "yards": 350,
+          "gross": 8,
+          "net": 6,
+          "accuracy": "right",
+          "putts": 2
+        },
+        {
+          "hole": 2,
+          "si": 7,
+          "par": 4,
+          "yards": 370,
+          "gross": 7,
+          "net": 5,
+          "accuracy": "hit",
+          "putts": 1
+        },
+        {
+          "hole": 3,
+          "si": 13,
+          "par": 3,
+          "yards": 176,
+          "gross": 8,
+          "net": 6,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 4,
+          "si": 5,
+          "par": 5,
+          "yards": 500,
+          "gross": 6,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 5,
+          "si": 3,
+          "par": 4,
+          "yards": 392,
+          "gross": 5,
+          "net": 2,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 6,
+          "si": 15,
+          "par": 4,
+          "yards": 314,
+          "gross": 5,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 7,
+          "si": 11,
+          "par": 3,
+          "yards": 186,
+          "gross": 4,
+          "net": 2,
+          "accuracy": "left",
+          "putts": 2
+        },
+        {
+          "hole": 8,
+          "si": 9,
+          "par": 5,
+          "yards": 521,
+          "gross": 5,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 9,
+          "si": 1,
+          "par": 4,
+          "yards": 396,
+          "gross": 5,
+          "net": 2,
+          "accuracy": "right",
+          "putts": 2
+        },
+        {
+          "hole": 10,
+          "si": 14,
+          "par": 5,
+          "yards": 502,
+          "gross": 6,
+          "net": 4,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 11,
+          "si": 16,
+          "par": 4,
+          "yards": 296,
+          "gross": 5,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 1
+        },
+        {
+          "hole": 12,
+          "si": 2,
+          "par": 4,
+          "yards": 477,
+          "gross": 6,
+          "net": 3,
+          "accuracy": "hit",
+          "putts": 3
+        },
+        {
+          "hole": 13,
+          "si": 10,
+          "par": 4,
+          "yards": 319,
+          "gross": 6,
+          "net": 4,
+          "accuracy": "left",
+          "putts": 2
+        },
+        {
+          "hole": 14,
+          "si": 18,
+          "par": 3,
+          "yards": 114,
+          "gross": 6,
+          "net": 4,
+          "accuracy": "right",
+          "putts": 2
+        },
+        {
+          "hole": 15,
+          "si": 6,
+          "par": 4,
+          "yards": 362,
+          "gross": 5,
+          "net": 2,
+          "accuracy": "hit",
+          "putts": 2
+        },
+        {
+          "hole": 16,
+          "si": 12,
+          "par": 3,
+          "yards": 170,
+          "gross": 6,
+          "net": 4,
+          "accuracy": "right",
+          "putts": 2
+        },
+        {
+          "hole": 17,
+          "si": 4,
+          "par": 5,
+          "yards": 504,
+          "gross": 7,
+          "net": 4,
+          "accuracy": "right",
+          "putts": 2
+        },
+        {
+          "hole": 18,
+          "si": 8,
+          "par": 4,
+          "yards": 397,
+          "gross": 6,
+          "net": 4,
+          "accuracy": "right",
+          "putts": 2
+        }
+      ]
+    }
+  ]
+}

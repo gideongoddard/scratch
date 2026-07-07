@@ -1,0 +1,29 @@
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 11px;
+  border-radius: 9px;
+  color: var(--fg-muted);
+  font-size: 13.5px;
+  text-decoration: none;
+  transition: background 0.1s, color 0.1s;
+}
+
+.navItem:hover {
+  background: var(--surface-2);
+  color: var(--fg);
+}
+
+.navItemActive {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 11px;
+  border-radius: 9px;
+  background: var(--accent-muted);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 13.5px;
+  text-decoration: none;
+}

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;-webkit-font-smoothing:antialiased;}
+  body{min-height:100dvh;}
+  .tnum{font-variant-numeric:tabular-nums lining-nums;}
+  @keyframes coachIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  @keyframes pulseDot{0%,100%{opacity:1;}50%{opacity:0.4;}}
+</style>
+</helmet>
+
+<div style="--bg:oklch(0.983 0.007 74);--surface:oklch(0.997 0.004 80);--surface-2:oklch(0.963 0.009 74);--sunken:oklch(0.944 0.011 70);--border:oklch(0.902 0.011 68);--border-strong:oklch(0.83 0.015 64);--fg:oklch(0.255 0.016 52);--fg-muted:oklch(0.505 0.018 52);--fg-subtle:oklch(0.645 0.015 58);--accent:oklch(0.575 0.138 46);--accent-hover:oklch(0.51 0.142 44);--accent-muted:oklch(0.952 0.034 54);--good:oklch(0.6 0.092 192);--good-bg:oklch(0.952 0.032 192);--bad:oklch(0.57 0.162 22);--bad-bg:oklch(0.953 0.042 24);--warn:oklch(0.72 0.125 68);--s-par:oklch(0.73 0.014 68);--s-bogey:oklch(0.79 0.105 82);--s-double:oklch(0.655 0.152 48);--s-triple:oklch(0.515 0.182 29);--c1:oklch(0.64 0.122 196);--e1:0 1px 2px oklch(0.3 0.03 58 / 0.08), 0 0 0 1px oklch(0.902 0.011 68);--e2:0 5px 16px oklch(0.3 0.03 58 / 0.1), 0 0 0 1px oklch(0.902 0.011 68);--e3:0 16px 38px oklch(0.32 0.035 56 / 0.15), 0 0 0 1px oklch(0.902 0.011 68);--mono:'JetBrains Mono',ui-monospace,monospace;--sans:'Hanken Grotesk',ui-sans-serif,system-ui,sans-serif;--disp:'Archivo',ui-sans-serif,system-ui,sans-serif;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.5;min-height:100vh;">
+
+  <!-- top strip: state switcher (design chrome, not part of the app) -->
+  <div style="position:sticky;top:0;z-index:60;background:oklch(0.983 0.007 74 / 0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);">
+    <div style="max-width:1360px;margin:0 auto;padding:12px 26px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:11px;">
+        <div style="width:24px;height:24px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.2" fill="white"/><circle cx="8" cy="8" r="5.6" stroke="white" stroke-opacity="0.5" stroke-width="1.2" fill="none"/></svg></div>
+        <span style="font-family:var(--disp);font-weight:700;font-size:16px;letter-spacing:-0.01em;">Scratch · Hybrid dashboard</span>
+        <span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);padding:3px 7px;background:var(--surface-2);border-radius:999px;border:1px solid var(--border);">deterministic + generated coach</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);letter-spacing:0.06em;">CLUB DATA</span>
+          <div style="display:flex;gap:3px;background:var(--surface-2);padding:3px;border-radius:9px;border:1px solid var(--border);">
+            <sc-for list="{{ clubBtns }}" as="b" hint-placeholder-count="2"><button onClick="{{ b.set }}" style="font-family:var(--mono);font-size:11px;padding:5px 11px;border:none;border-radius:7px;cursor:pointer;background:{{ b.bg }};color:{{ b.col }};font-weight:500;white-space:nowrap;">{{ b.lbl }}</button></sc-for>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);letter-spacing:0.06em;">PREVIEW STATE</span>
+          <div style="display:flex;gap:3px;background:var(--surface-2);padding:3px;border-radius:9px;border:1px solid var(--border);">
+            <sc-for list="{{ stateBtns }}" as="b" hint-placeholder-count="3"><button onClick="{{ b.set }}" style="font-family:var(--mono);font-size:11px;padding:5px 11px;border:none;border-radius:7px;cursor:pointer;background:{{ b.bg }};color:{{ b.col }};font-weight:500;white-space:nowrap;">{{ b.lbl }}</button></sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:1360px;margin:0 auto;padding:26px;">
+
+    <div style="border-radius:18px;box-shadow:var(--e3);overflow:hidden;display:flex;background:var(--bg);min-height:820px;">
+      <!-- sidebar -->
+      <div style="width:206px;flex:0 0 206px;background:var(--surface);border-right:1px solid var(--border);padding:18px 14px;display:flex;flex-direction:column;gap:3px;">
+        <div style="display:flex;align-items:center;gap:9px;padding:6px 10px 16px;"><div style="width:24px;height:24px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.2" fill="white"/><circle cx="8" cy="8" r="5.6" stroke="white" stroke-opacity="0.5" stroke-width="1.2" fill="none"/></svg></div><span style="font-family:var(--disp);font-weight:700;font-size:15px;">Scratch</span></div>
+        <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:9px;background:var(--accent-muted);color:var(--accent);font-weight:600;font-size:13.5px;"><svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>Dashboard</div>
+        <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:9px;color:var(--fg-muted);font-size:13.5px;"><svg width="15" height="15" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.4" fill="none"><line x1="2" y1="4" x2="14" y2="4"/><line x1="2" y1="8" x2="14" y2="8"/><line x1="2" y1="12" x2="14" y2="12"/></svg>Rounds</div>
+        <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:9px;color:var(--fg-muted);font-size:13.5px;"><svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="6" width="4" height="8" rx="1"/><rect x="10" y="2" width="4" height="12" rx="1"/></svg>Compare</div>
+        <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:9px;color:var(--fg-muted);font-size:13.5px;"><svg width="15" height="15" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.4" fill="none"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="1.6" fill="currentColor" stroke="none"/></svg>Hole analysis</div>
+        <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:9px;color:var(--fg-muted);font-size:13.5px;"><svg width="15" height="15" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.4" fill="none"><line x1="4" y1="1.5" x2="4" y2="14.5"/><path d="M4 2.5 L12 4.5 L4 6.5" fill="currentColor" stroke="none"/></svg>Courses</div>
+        <div style="flex:1;"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 11px;margin-bottom:8px;border-radius:9px;background:var(--surface-2);"><span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);">HANDICAP</span><span class="tnum" style="font-family:var(--disp);font-weight:700;font-size:15px;">{{ handicap }}</span></div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border-radius:9px;background:var(--accent);color:white;font-weight:600;font-size:13.5px;box-shadow:0 2px 10px oklch(0.575 0.138 46 / 0.3);"><svg width="14" height="14" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.8"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>Log a round</div>
+      </div>
+
+      <!-- main -->
+      <div style="flex:1;min-width:0;background:var(--bg);padding:26px 30px;overflow:hidden;">
+
+        <!-- ===== EMPTY (new user) ===== -->
+        <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:660px;gap:18px;">
+            <div style="width:60px;height:60px;border-radius:16px;background:var(--accent-muted);display:flex;align-items:center;justify-content:center;"><svg width="28" height="28" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.4" fill="var(--accent)"/><circle cx="8" cy="8" r="6" stroke="var(--accent)" stroke-opacity="0.4" stroke-width="1.3" fill="none"/></svg></div>
+            <div>
+              <h1 style="font-family:var(--disp);font-weight:700;font-size:26px;letter-spacing:-0.02em;margin-bottom:8px;">No rounds yet</h1>
+              <p style="font-size:15px;color:var(--fg-muted);max-width:42ch;line-height:1.55;">Log your first round to start tracking. Trends, comparisons and your first coaching read unlock as soon as a round is in.</p>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:4px;">
+              <span style="display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:10px;background:var(--accent);color:white;font-weight:600;font-size:14px;box-shadow:0 2px 10px oklch(0.575 0.138 46 / 0.3);"><svg width="14" height="14" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.8"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>Log a round</span>
+              <span style="display:inline-flex;align-items:center;padding:11px 18px;border-radius:10px;background:var(--surface);border:1px solid var(--border);color:var(--fg-muted);font-weight:500;font-size:14px;">Create a course</span>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== POPULATED (full + first) ===== -->
+        <sc-if value="{{ hasData }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <!-- header -->
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap;">
+              <div>
+                <div style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);letter-spacing:0.08em;margin-bottom:6px;">DASHBOARD</div>
+                <h1 style="font-family:var(--disp);font-weight:700;font-size:26px;letter-spacing:-0.02em;">{{ headerTitle }} <span style="font-family:var(--mono);font-size:12px;color:var(--fg-subtle);font-weight:400;">{{ headerSub }}</span></h1>
+              </div>
+              <div style="display:flex;gap:7px;font-family:var(--mono);font-size:11px;">
+                <span style="padding:6px 11px;border-radius:8px;background:var(--surface);border:1px solid var(--border);color:var(--fg-muted);">All courses ▾</span>
+                <span style="padding:6px 11px;border-radius:8px;background:var(--accent-muted);color:var(--accent);border:1px solid oklch(0.575 0.138 46 / 0.25);">18-hole</span>
+              </div>
+            </div>
+
+            <!-- ===== COACH CARD (generated) ===== -->
+            <sc-if value="{{ coach }}" hint-placeholder-val="{{ false }}">
+              <div style="position:relative;background:var(--surface);border-radius:16px;padding:1.5px;margin-bottom:18px;box-shadow:var(--e2);">
+                <div style="position:absolute;inset:0;border-radius:16px;padding:1.5px;background:linear-gradient(120deg, oklch(0.575 0.138 46 / 0.5), oklch(0.5 0.132 350 / 0.35) 55%, oklch(0.575 0.138 46 / 0.12));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;"></div>
+                <div style="position:relative;background:var(--surface);border-radius:15px;padding:22px 24px;">
+                  <!-- coach header -->
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                      <div style="width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--accent),oklch(0.5 0.132 350));display:flex;align-items:center;justify-content:center;">
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="white"><path d="M8 1 L9.4 6.6 L15 8 L9.4 9.4 L8 15 L6.6 9.4 L1 8 L6.6 6.6 Z"/></svg>
+                      </div>
+                      <span style="font-family:var(--disp);font-weight:700;font-size:16px;">Coach</span>
+                      <span style="font-family:var(--mono);font-size:10px;color:var(--accent);background:var(--accent-muted);padding:3px 8px;border-radius:999px;">GENERATED</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:12px;">
+                      <span style="font-family:var(--mono);font-size:10.5px;color:var(--fg-subtle);">{{ coach.tag }}</span>
+                      <span style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;color:var(--fg-muted);padding:5px 10px;border-radius:8px;background:var(--surface-2);border:1px solid var(--border);cursor:pointer;"><svg width="12" height="12" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5" fill="none"><path d="M13.5 8 a5.5 5.5 0 1 1 -1.6 -3.9"/><path d="M13.5 2.5 V5 H11"/></svg>Re-analyze</span>
+                    </div>
+                  </div>
+
+                  <!-- verdict -->
+                  <div style="margin-bottom:18px;">
+                    <div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);letter-spacing:0.08em;margin-bottom:7px;">THE READ</div>
+                    <p style="font-size:17px;line-height:1.5;color:var(--fg);max-width:80ch;font-weight:500;">{{ coach.verdict }}</p>
+                  </div>
+
+                  <!-- trend read / baseline -->
+                  <div style="display:flex;gap:10px;align-items:flex-start;padding:14px 16px;background:var(--surface-2);border-radius:11px;margin-bottom:18px;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" style="margin-top:2px;flex:0 0 auto;" stroke="var(--accent)" stroke-width="1.5" fill="none"><path d="M2 11 L6 6 L9 9 L14 3"/><path d="M10 3 H14 V7"/></svg>
+                    <p style="font-size:14px;line-height:1.55;color:var(--fg-muted);">{{ coach.trend }}</p>
+                  </div>
+
+                  <!-- focus areas (Claude-ranked) -->
+                  <div style="margin-bottom:6px;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                      <span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);letter-spacing:0.08em;">WORK ON THIS</span>
+                      <span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);">· prioritised by impact</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:{{ focusCols }};gap:11px;">
+                      <sc-for list="{{ coach.focus }}" as="f" hint-placeholder-count="3">
+                        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px 16px;">
+                          <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px;">
+                            <span style="width:21px;height:21px;border-radius:6px;background:{{ f.rankBg }};color:{{ f.rankCol }};font-family:var(--disp);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;">{{ f.rank }}</span>
+                            <span style="font-family:var(--disp);font-weight:600;font-size:14px;">{{ f.title }}</span>
+                          </div>
+                          <p style="font-size:12.5px;line-height:1.5;color:var(--fg-muted);margin-bottom:10px;">{{ f.reason }}</p>
+                          <div style="display:flex;gap:7px;align-items:flex-start;padding-top:9px;border-top:1px solid var(--border);">
+                            <span style="font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:0.06em;flex:0 0 auto;margin-top:1px;">TIP</span>
+                            <span style="font-size:12px;line-height:1.45;color:var(--fg);">{{ f.drill }}</span>
+                          </div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+
+                  <!-- caveat -->
+                  <p style="font-size:11px;color:var(--fg-subtle);line-height:1.5;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">{{ coach.caveat }}</p>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- ===== DETERMINISTIC LAYER ===== -->
+            <div style="display:flex;align-items:center;gap:9px;margin:22px 2px 12px;">
+              <span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);letter-spacing:0.08em;">THE NUMBERS</span>
+              <span style="flex:1;height:1px;background:var(--border);"></span>
+              <span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);">computed · no AI</span>
+            </div>
+
+            <!-- KPI tiles · two labelled clusters -->
+            <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;">
+              <div style="flex:1 1 230px;min-width:230px;display:flex;flex-direction:column;">
+                <div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);letter-spacing:0.06em;margin-bottom:8px;">SCORING</div>
+                <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;flex:1;">
+                  <sc-for list="{{ kpisScoring }}" as="k" hint-placeholder-count="2">
+                    <div style="background:var(--surface);border-radius:13px;box-shadow:var(--e1);padding:15px 16px;{{ k.extra }}">
+                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;min-height:16px;">
+                        <span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);letter-spacing:0.04em;">{{ k.label }}</span>
+                        <sc-if value="{{ k.chip }}" hint-placeholder-val="{{ false }}"><span style="font-family:var(--mono);font-size:9.5px;color:{{ k.chipCol }};background:{{ k.chipBg }};padding:2px 6px;border-radius:999px;">{{ k.chip }}</span></sc-if>
+                      </div>
+                      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:6px;">
+                        <span class="tnum" style="font-family:var(--disp);font-weight:700;font-size:30px;line-height:1;color:{{ k.valCol }};">{{ k.value }}<sc-if value="{{ k.suffix }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:var(--fg-subtle);">{{ k.suffix }}</span></sc-if></span>
+                        <sc-if value="{{ k.spark }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 120 38" style="width:60px;height:24px;"><polyline points="{{ k.spark }}" style="fill:none;stroke:{{ k.sparkCol }};stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"></polyline></svg></sc-if>
+                      </div>
+                      <sc-if value="{{ k.note }}" hint-placeholder-val="{{ false }}"><div style="font-family:var(--mono);font-size:9px;color:var(--fg-subtle);margin-top:5px;">{{ k.note }}</div></sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="flex:2 1 460px;min-width:300px;display:flex;flex-direction:column;">
+                <div style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);letter-spacing:0.06em;margin-bottom:8px;">BALL-STRIKING &amp; PUTTING</div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:11px;flex:1;">
+                  <sc-for list="{{ kpisComponents }}" as="k" hint-placeholder-count="4">
+                    <div style="background:var(--surface);border-radius:13px;box-shadow:var(--e1);padding:15px 16px;{{ k.extra }}">
+                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;min-height:16px;">
+                        <span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);letter-spacing:0.04em;">{{ k.label }}</span>
+                        <sc-if value="{{ k.chip }}" hint-placeholder-val="{{ false }}"><span style="font-family:var(--mono);font-size:9.5px;color:{{ k.chipCol }};background:{{ k.chipBg }};padding:2px 6px;border-radius:999px;">{{ k.chip }}</span></sc-if>
+                      </div>
+                      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:6px;">
+                        <span class="tnum" style="font-family:var(--disp);font-weight:700;font-size:30px;line-height:1;color:{{ k.valCol }};">{{ k.value }}<sc-if value="{{ k.suffix }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:var(--fg-subtle);">{{ k.suffix }}</span></sc-if></span>
+                        <sc-if value="{{ k.spark }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 120 38" style="width:60px;height:24px;"><polyline points="{{ k.spark }}" style="fill:none;stroke:{{ k.sparkCol }};stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;"></polyline></svg></sc-if>
+                        <sc-if value="{{ k.miniGir }}" hint-placeholder-val="{{ false }}"><div style="display:grid;grid-template-columns:repeat(6,1fr);gap:2.5px;width:60px;"><sc-for list="{{ k.miniGir }}" as="g" hint-placeholder-count="18"><div style="aspect-ratio:1;border-radius:50%;background:{{ g.bg }};box-shadow:{{ g.ring }};"></div></sc-for></div></sc-if>
+                      </div>
+                      <sc-if value="{{ k.note }}" hint-placeholder-val="{{ false }}"><div style="font-family:var(--mono);font-size:9px;color:var(--fg-subtle);margin-top:5px;">{{ k.note }}</div></sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <!-- row 1: fairway accuracy + greens hit (the across-rounds pair) -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+              <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:18px 20px;">
+                <h3 style="font-family:var(--disp);font-weight:700;font-size:15px;margin-bottom:4px;">Fairway accuracy</h3>
+                <p style="font-size:12px;color:var(--fg-muted);margin-bottom:16px;">{{ fairwayNote }}</p>
+                <div style="display:flex;flex-direction:column;gap:14px;">
+                  <sc-for list="{{ fairways }}" as="f" hint-placeholder-count="3">
+                    <div>
+                      <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;margin-bottom:5px;"><span style="color:var(--fg-muted);">{{ f.label }}{{ f.note }}</span><span class="tnum" style="font-weight:600;color:{{ f.color }};">{{ f.pct }}%</span></div>
+                      <div style="height:13px;border-radius:999px;background:var(--sunken);overflow:hidden;"><div style="width:{{ f.pct }}%;height:100%;background:{{ f.color }};border-radius:999px;"></div></div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:18px 20px;">
+                <h3 style="font-family:var(--disp);font-weight:700;font-size:15px;margin-bottom:4px;">Greens hit</h3>
+                <p style="font-size:12px;color:var(--fg-muted);margin-bottom:16px;">Each dot a hole · filled = green hit.</p>
+                <div style="display:flex;flex-direction:column;gap:14px;">
+                  <sc-for list="{{ girRows }}" as="row" hint-placeholder-count="3">
+                    <div>
+                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><span style="font-family:var(--mono);font-size:11px;color:var(--fg-muted);">{{ row.round }}</span><span class="tnum" style="font-family:var(--disp);font-weight:600;font-size:13px;">{{ row.count }}<span style="font-size:10px;color:var(--fg-subtle);">/18</span></span></div>
+                      <div style="display:grid;grid-template-columns:repeat(18,1fr);gap:3px;">
+                        <sc-for list="{{ row.dots }}" as="g" hint-placeholder-count="18"><div style="aspect-ratio:1;border-radius:50%;background:{{ g.bg }};box-shadow:{{ g.ring }};"></div></sc-for>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <!-- row 2: score breakdown (full width finish) -->
+            <div style="background:var(--surface);border-radius:14px;box-shadow:var(--e1);padding:18px 20px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;"><h3 style="font-family:var(--disp);font-weight:700;font-size:15px;">Score breakdown <span style="font-family:var(--mono);font-size:11px;color:var(--fg-subtle);font-weight:400;">· holes per round by score-to-par</span></h3>
+                <div style="display:flex;gap:11px;font-family:var(--mono);font-size:9.5px;color:var(--fg-subtle);flex-wrap:wrap;">
+                  <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:9px;height:9px;border-radius:2px;background:var(--s-par);"></span>par−</span>
+                  <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:9px;height:9px;border-radius:2px;background:var(--s-bogey);"></span>bogey</span>
+                  <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:9px;height:9px;border-radius:2px;background:var(--s-double);"></span>double</span>
+                  <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:9px;height:9px;border-radius:2px;background:var(--s-triple);"></span>triple+</span>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:12px;">
+                <sc-for list="{{ distRows }}" as="r" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:12px;">
+                    <span style="font-family:var(--mono);font-size:11px;color:var(--fg-muted);min-width:22px;">{{ r.round }}</span>
+                    <div style="flex:1;display:flex;height:26px;border-radius:7px;overflow:hidden;gap:2px;">
+                      <sc-for list="{{ r.segs }}" as="s" hint-placeholder-count="4"><div style="width:{{ s.w }}%;background:{{ s.c }};display:flex;align-items:center;justify-content:center;min-width:0;"><span class="tnum" style="font-family:var(--mono);font-size:10px;color:oklch(0.26 0.02 56 / 0.74);font-weight:600;">{{ s.n }}</span></div></sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <p style="font-size:11.5px;color:var(--fg-muted);margin-top:14px;line-height:1.5;">{{ distNote }}</p>
+            </div>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+
+    <!-- how-it-works footnote (design chrome) -->
+    <div style="margin-top:16px;display:flex;gap:14px;align-items:flex-start;padding:16px 18px;background:var(--surface);border-radius:12px;box-shadow:var(--e1);">
+      <div style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--accent),oklch(0.5 0.132 350));display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="13" height="13" viewBox="0 0 16 16" fill="white"><path d="M8 1 L9.4 6.6 L15 8 L9.4 9.4 L8 15 L6.6 9.4 L1 8 L6.6 6.6 Z"/></svg></div>
+      <div>
+        <div style="font-family:var(--disp);font-weight:600;font-size:13.5px;margin-bottom:4px;">How the Coach layer works <span style="font-family:var(--mono);font-size:10px;color:var(--fg-subtle);font-weight:400;">· design intent for Claude Code</span></div>
+        <p style="font-size:12.5px;color:var(--fg-muted);line-height:1.55;max-width:96ch;margin-bottom:16px;">On every round saved, the derivation layer computes the metrics, then a snapshot of those numbers (with scope-correct deltas) is sent to Claude, which returns a structured insight — verdict, trend read, ranked focus areas — persisted per-round as <span style="font-family:var(--mono);font-size:11.5px;color:var(--fg);">round_insight</span> and rendered above. <strong style="color:var(--fg);">Claude never computes a stat, and never asserts a cause the data doesn't hold.</strong></p>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--bad);letter-spacing:0.07em;margin-bottom:10px;">FOUR GUARDRAILS AGAINST HALLUCINATION</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div style="background:var(--surface-2);border-radius:9px;padding:12px 14px;"><div style="font-family:var(--disp);font-weight:600;font-size:12.5px;margin-bottom:3px;">1 · Facts in, narration out</div><p style="font-size:11.5px;color:var(--fg-muted);line-height:1.5;">Claude gets a pre-computed evidence packet — exact figures plus the blow-up list with each hole's <em>recorded</em> attributes — never raw rounds. It phrases facts; it can't compute or discover one.</p></div>
+          <div style="background:var(--surface-2);border-radius:9px;padding:12px 14px;"><div style="font-family:var(--disp);font-weight:600;font-size:12.5px;margin-bottom:3px;">2 · No cause without a computed link</div><p style="font-size:11.5px;color:var(--fg-muted);line-height:1.5;">“The driver caused this 8” is allowed only if the derivation layer joined <span style="font-family:var(--mono);font-size:11px;">teeClub</span> + accuracy + penalty at that hole. No such data ⇒ the prompt forbids the claim.</p></div>
+          <div style="background:var(--surface-2);border-radius:9px;padding:12px 14px;"><div style="font-family:var(--disp);font-weight:600;font-size:12.5px;margin-bottom:3px;">3 · Cite &amp; validate</div><p style="font-size:11.5px;color:var(--fg-muted);line-height:1.5;">Each insight carries the metrics it rests on; a deterministic check confirms every figure in the output exists in the packet, and regenerates if one doesn't reconcile.</p></div>
+          <div style="background:var(--surface-2);border-radius:9px;padding:12px 14px;"><div style="font-family:var(--disp);font-weight:600;font-size:12.5px;margin-bottom:3px;">4 · Knows what it can't see</div><p style="font-size:11.5px;color:var(--fg-muted);line-height:1.5;">An explicit “not tracked” list (bunkers, penalties, club…) is passed in, so the model defers on dimensions you don't capture instead of inventing one.</p></div>
+        </div>
+        <p style="font-size:11px;color:var(--fg-subtle);line-height:1.5;margin-top:12px;">The card above is mocked copy in that exact shape — and an earlier draft of it fabricated “the 9 and the 8s came from the driver,” which these rules exist to catch.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1360,&quot;height&quot;:960},&quot;coachVoice&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;analyst&quot;,&quot;encouraging&quot;,&quot;blunt&quot;],&quot;default&quot;:&quot;analyst&quot;,&quot;tsType&quot;:&quot;'analyst'|'encouraging'|'blunt'&quot;,&quot;section&quot;:&quot;Coach&quot;,&quot;label&quot;:&quot;Coaching voice&quot;},&quot;coachEnabled&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Coach&quot;,&quot;label&quot;:&quot;Show Coach layer&quot;}}">
+class Component extends DCLogic {
+  state = { view: "full", metric: "vspar", hovB: null, clubTracking: false };
+
+  line(values, o) {
+    const n = values.length, plotW = o.w - o.padL - o.padR, plotH = o.h - o.padT - o.padB;
+    const xs = values.map((_, i) => (n === 1 ? o.padL + plotW / 2 : o.padL + (i / (n - 1)) * plotW));
+    const ys = values.map((v) => o.padT + (1 - (v - o.min) / (o.max - o.min)) * plotH);
+    const pts = xs.map((x, i) => `${x.toFixed(1)},${ys[i].toFixed(1)}`).join(" ");
+    const baseY = (o.padT + plotH).toFixed(1);
+    const area = `${xs[0].toFixed(1)},${baseY} ${pts} ${xs[n - 1].toFixed(1)},${baseY}`;
+    const dots = xs.map((x, i) => ({ x: +x.toFixed(1), y: +ys[i].toFixed(1), val: values[i] }));
+    return { pts, area, dots };
+  }
+  cfg(metric) {
+    const M = {
+      vspar: { values: [37, 36, 34], min: 30, max: 40, label: "Strokes vs par", fmt: (v) => (v >= 0 ? "+" : "") + Math.round(v) },
+      putts: { values: [42, 43, 35], min: 32, max: 46, label: "Putts", fmt: (v) => "" + Math.round(v) },
+      gross: { values: [107, 106, 106], min: 100, max: 112, label: "Gross score", fmt: (v) => "" + Math.round(v) },
+    };
+    return M[metric];
+  }
+  dotObjs(hits) {
+    return Array.from({ length: 18 }, (_, i) => {
+      const hit = hits.includes(i);
+      return { bg: hit ? "var(--c1)" : "var(--sunken)", ring: hit ? "0 0 0 1px var(--c1), 0 1px 4px oklch(0.64 0.122 196 / 0.5)" : "inset 0 0 0 1px var(--border)" };
+    });
+  }
+  mini(vals, min, max) { return this.line(vals, { min, max, w: 120, h: 38, padL: 5, padR: 5, padT: 7, padB: 7 }).pts; }
+
+  coachData(view, voice, club) {
+    if (view === "first") {
+      return {
+        tag: "Generated after Round 1 · your baseline",
+        verdict: "First round back is logged: 107 (+37) on a par-70, 18 holes. This sets your baseline — round-to-round trends and comparisons unlock from your next round.",
+        trend: club
+          ? "Too early to call a trend, but the round was played conservatively — a 7-iron off the tee on the par-4s and 5s kept you at 86% fairways, at the cost of distance. Worth watching what changes when the driver comes out."
+          : "Too early to call a trend. One round is a small sample, so read every number below as a starting point, not a verdict.",
+        focus: [
+          { rank: 1, title: "Early signal: the greens", reason: "1 green hit and 42 putts. Approach play and putting are the obvious first places to look — confirm it over a few more rounds before committing practice time.", drill: "Note where you're missing greens so the next read has something to work with." },
+        ],
+        caveat: club
+          ? "Based on score, putts, GIR, fairways and club off the tee. Penalties and miss direction aren't logged yet — adding them will sharpen future reads."
+          : "Based on score, putts, GIR and fairways. Penalties, club off the tee and miss direction aren't logged yet — adding them will sharpen future reads.",
+      };
+    }
+    const verdicts = {
+      analyst: "Round 3 is your best to par yet: 106 (+34) on a par-72. Gross is flat versus Round 2, but the shape of the round changed — 35 putts, down from 43, and one 3-putt instead of seven.",
+      encouraging: "Real progress in Round 3 — your best score to par yet at +34, and a big step on the greens: 35 putts, down from 43, with just one 3-putt. The putter is starting to click.",
+      blunt: "106 again — the score is stuck. But Round 3 hid a genuine gain: putting fixed itself (43→35, seven 3-putts down to one). The greens are still the problem, at 1 of 18.",
+    };
+    const trend = club
+      ? "Across three rounds your tee strategy changed. In Round 1 you laid back with a 7-iron off the tee on the par-4s and 5s — 86% fairways, but no distance and 107 shots. By Round 3 the driver was back and fairways fell to 64%, while your score held at its best to par (+34). So the accuracy you traded hasn't shown up as lost strokes yet. Which holes the driver actually cost you can't be pinned down until bunker and penalty detail is logged per hole."
+      : "Across three rounds scoring is drifting the right way (+37 → +36 → +34), and the gains are on the greens. Fairway accuracy actually fell — 86% to 64% — yet the score held, so more trouble off the tee isn't costing you yet. Whether that's a club change can't be said from these rounds: club off the tee isn't tracked.";
+    const focus3 = club
+      ? { rank: 3, title: "Driver vs 7-iron off the tee", reason: "With the driver back on the par-4s and 5s, fairways dropped to 64% from 86% with the 7-iron — a clear accuracy cost. Whether those misses are costing strokes needs the blow-up holes broken down by cause, which isn't captured yet.", drill: "Log what went wrong on the big holes (bunkers, penalties) so the driver's real cost can be measured, not guessed." }
+      : { rank: 3, title: "Accuracy off the tee", reason: "Fairways fell to 64% from 86%. These rounds don't record which club you hit off the tee or what went wrong on the blow-up holes, so the cause of the dropped shots is still open.", drill: "Start logging club + miss direction off the tee — then this can separate driver misses from iron misses." };
+    const caveat = club
+      ? "Based on score, putts, GIR, fairways and club off the tee. Penalties and miss direction still aren't logged — adding them will sharpen this further."
+      : "Based on score, putts, GIR and fairway data. Penalties, club off the tee and miss direction aren't logged on these rounds — adding them will sharpen the focus list.";
+    return {
+      tag: club ? "Generated after Round 3 · club-aware read" : "Generated after Round 3 · re-runs on each new round",
+      verdict: verdicts[voice] || verdicts.analyst,
+      trend,
+      focus: [
+        { rank: 1, title: "Greens in regulation", reason: "1 of 18 hit. Nearly every hole begins with a missed green — the single largest source of dropped shots sits in approach play and scrambling.", drill: "Bias practice to approaches from 100–150y plus basic up-and-down work." },
+        { rank: 2, title: "Stop the big numbers", reason: "Four holes at +4 or worse across three rounds (a 10, a 9 and two 8s). Capping these is worth more right now than any swing change.", drill: "On trouble holes, club down off the tee and take the blow-up out of play." },
+        focus3,
+      ],
+      caveat,
+    };
+  }
+
+  renderVals() {
+    const view = this.state.view;
+    const voice = this.props.coachVoice ?? "analyst";
+    const coachOn = this.props.coachEnabled ?? true;
+    const club = this.state.clubTracking;
+    const isEmpty = view === "empty";
+    const isFirst = view === "first";
+    const isFull = view === "full";
+    const hasData = !isEmpty;
+    const hasTrend = isFull;
+
+    const stateBtns = [["full", "3 rounds"], ["first", "First round"], ["empty", "New user"]].map(([k, lbl]) => ({
+      lbl, set: () => this.setState({ view: k }),
+      bg: view === k ? "var(--accent)" : "transparent",
+      col: view === k ? "#fff" : "var(--fg-muted)",
+    }));
+    const clubBtns = [[false, "Off"], [true, "On"]].map(([v, lbl]) => ({
+      lbl, set: () => this.setState({ clubTracking: v }),
+      bg: club === v ? "var(--accent)" : "transparent",
+      col: club === v ? "#fff" : "var(--fg-muted)",
+    }));
+
+    const handicap = isEmpty ? "—" : "29.8";
+    const headerTitle = isFull ? "Last 3 rounds" : "Round 1";
+    const headerSub = isFull ? "· all 18-hole · since returning" : "· par 70 · 18 holes · baseline";
+
+    const coach = (!coachOn || isEmpty) ? null : this.coachData(view, voice, club);
+    const focusCols = (coach && coach.focus.length >= 3) ? "1fr 1fr 1fr" : (coach && coach.focus.length === 2 ? "1fr 1fr" : "1fr");
+
+    // ---- trend (full only) ----
+    let bPts, bArea, bDots = [], bGrid = [], bTip = null, bDriverX = 0, metricBtns = [], metricLabel = "";
+    if (hasTrend) {
+      const rounds = ["Round 1", "Round 2", "Round 3"], shorts = ["R1", "R2", "R3"];
+      const c = this.cfg(this.state.metric);
+      const b = this.line(c.values, { min: c.min, max: c.max, w: 560, h: 230, padL: 46, padR: 24, padT: 22, padB: 40 });
+      bPts = b.pts; bArea = b.area;
+      bGrid = [0, 0.25, 0.5, 0.75, 1].map((f) => ({ y: +(22 + f * 168).toFixed(1), label: c.fmt(c.max - (c.max - c.min) * f) }));
+      bDots = b.dots.map((d, i) => ({
+        x: d.x, y: d.y, short: shorts[i], round: rounds[i], val: c.fmt(d.val),
+        delta: i > 0 ? d.val - c.values[i - 1] : null, r: this.state.hovB === i ? 6.5 : 5,
+        enter: () => this.setState({ hovB: i }), leave: () => this.setState({ hovB: null }),
+      }));
+      bDriverX = b.dots[2].x;
+      if (this.state.hovB != null) {
+        const d = bDots[this.state.hovB], w = 140;
+        const tx = Math.min(Math.max(d.x - w / 2, 6), 560 - w - 6);
+        const ty = d.y - 60 < 6 ? d.y + 16 : d.y - 56;
+        bTip = { tx, ty, lx: tx + 12, rx: tx + w - 12, l1: ty + 18, l2: ty + 37, title: d.round, val: d.val,
+          delta: d.delta == null ? "first round" : (d.delta < 0 ? d.delta + " better" : "+" + d.delta + " worse"),
+          dcol: d.delta == null ? "var(--fg-subtle)" : (d.delta < 0 ? "var(--good)" : "var(--bad)") };
+      }
+      metricBtns = [["vspar", "vs par"], ["putts", "Putts"], ["gross", "Gross"]].map(([k, lbl]) => ({
+        lbl, set: () => this.setState({ metric: k }),
+        bg: this.state.metric === k ? "var(--accent)" : "transparent",
+        col: this.state.metric === k ? "#fff" : "var(--fg-muted)",
+      }));
+      metricLabel = c.label;
+    }
+
+    // ---- KPI tiles ----
+    const girHitsAll = [[6], [6, 12], [7]];
+    const latestGir = this.dotObjs(isFull ? girHitsAll[2] : girHitsAll[0]);
+    const sd = isFull; // show deltas/sparks
+    const kpisScoring = isFull ? [
+      { label: "GROSS", value: "106", suffix: null, chip: null, spark: null, valCol: "var(--fg)" },
+      { label: "vs PAR", value: "+34", chip: "▼2", chipCol: "var(--good)", chipBg: "var(--good-bg)", spark: this.mini([37,36,34],33,38), sparkCol: "var(--good)", valCol: "var(--fg)" },
+    ] : [
+      { label: "GROSS", value: "107", chip: null, spark: null, valCol: "var(--fg)", note: "first round" },
+      { label: "vs PAR", value: "+37", chip: null, spark: null, valCol: "var(--fg)", note: "baseline" },
+    ];
+    const kpisComponents = isFull ? [
+      { label: "FAIRWAYS", value: "64", suffix: "%", chip: "−22", chipCol: "var(--bad)", chipBg: "var(--bad-bg)", spark: this.mini([86,79,64],60,88), sparkCol: "var(--bad)", valCol: "var(--fg)", note: club ? "driver in by R3" : null },
+      { label: "GIR", value: "1", suffix: "/18", chip: "−1", chipCol: "var(--bad)", chipBg: "var(--bad-bg)", miniGir: latestGir, valCol: "var(--fg)" },
+      { label: "PUTTS", value: "35", chip: "▼8", chipCol: "var(--good)", chipBg: "var(--good-bg)", spark: this.mini([42,43,35],34,44), sparkCol: "var(--c1)", valCol: "var(--fg)" },
+      { label: "3-PUTTS", value: "1", chip: "▼6", chipCol: "var(--good)", chipBg: "var(--good-bg)", spark: this.mini([6,7,1],0,7), sparkCol: "var(--c1)", valCol: "var(--fg)" },
+    ] : [
+      { label: "FAIRWAYS", value: "86", suffix: "%", chip: null, spark: null, valCol: "var(--fg)", note: club ? "7-iron off tee" : "off the tee" },
+      { label: "GIR", value: "1", suffix: "/18", chip: null, miniGir: latestGir, valCol: "var(--fg)" },
+      { label: "PUTTS", value: "42", chip: null, spark: null, valCol: "var(--fg)", note: "baseline" },
+      { label: "3-PUTTS", value: "6", chip: null, spark: null, valCol: "var(--fg)", note: "baseline" },
+    ];
+
+    // ---- GIR matrix rows ----
+    const roundNames = ["Round 1", "Round 2", "Round 3"];
+    const girRows = (isFull ? girHitsAll : [girHitsAll[0]]).map((hits, i) => ({ round: roundNames[i], count: hits.length, dots: this.dotObjs(hits) }));
+
+    // ---- distribution ----
+    const distAll = [
+      { round: "R1", parBetter: 1, bogey: 5, double: 9, triple: 3 },
+      { round: "R2", parBetter: 2, bogey: 4, double: 5, triple: 7 },
+      { round: "R3", parBetter: 1, bogey: 8, double: 4, triple: 5 },
+    ];
+    const dc = { parBetter: "var(--s-par)", bogey: "var(--s-bogey)", double: "var(--s-double)", triple: "var(--s-triple)" };
+    const distRows = (isFull ? distAll : [distAll[0]]).map((d) => ({
+      round: d.round, segs: ["parBetter", "bogey", "double", "triple"].filter((k) => d[k] > 0).map((k) => ({ w: +(d[k] / 18 * 100).toFixed(2), c: dc[k], n: d[k] })),
+    }));
+    const distNote = isFull ? "Round 3 shifts toward bogeys — more holes saved — but triple+ stays high on the bunker holes." : "Doubles dominate the card — the blow-up holes are where the strokes go.";
+
+    // ---- fairways ----
+    const fwAll = [
+      { label: "R1", note: club ? " · 7-iron" : "", pct: 86, color: "var(--c1)" },
+      { label: "R2", note: club ? " · mixed" : "", pct: 79, color: "var(--c1)" },
+      { label: "R3", note: club ? " · driver" : "", pct: 64, color: "var(--bad)" },
+    ];
+    const fairways = isFull ? fwAll : [fwAll[0]];
+    const fairwayNote = isFull
+      ? (club ? "7-iron off the tee in R1 (86%) gave way to the driver by R3 (64%) — accuracy traded for distance." : "Fairway accuracy fell across the three rounds — the score held anyway.")
+      : (club ? "7-iron off the tee — safe but short." : "Your starting accuracy off the tee — the baseline to beat.");
+
+    return {
+      stateBtns, clubBtns, driverMarker: isFull && club,
+      isEmpty, hasData, handicap, headerTitle, headerSub,
+      coach, focusCols,
+      hasTrend, noTrend: isFirst,
+      bPts, bArea, bDots, bGrid, bTip, bDriverX, metricBtns, metricLabel,
+      kpisScoring, kpisComponents, girRows, distRows, distNote, fairways, fairwayNote,
+    };
+  }
+}
+</script>
+</body>
+</html>

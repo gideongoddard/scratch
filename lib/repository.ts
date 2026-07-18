@@ -56,7 +56,13 @@ export function createRepository(supabase: SupabaseClient) {
     },
 
     async saveRound(input: RoundInput): Promise<Round> {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+
       const payload = {
+        user_id: user.id,
         course_id: input.courseId,
         played_at: input.playedAt,
         handicap_index: input.handicapIndex,
@@ -87,7 +93,13 @@ export function createRepository(supabase: SupabaseClient) {
     },
 
     async saveCourse(input: CourseInput): Promise<Course> {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+
       const payload = {
+        user_id: user.id,
         name: input.name,
         tee: input.tee,
         course_par: input.coursePar,

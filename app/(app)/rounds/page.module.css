@@ -1,0 +1,245 @@
+/* ===== Header ===== */
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.headerEyebrow {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--fg-subtle);
+  margin-bottom: 4px;
+}
+
+.headerTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+}
+
+.headerSub {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-subtle);
+  font-weight: 400;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logRoundLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border-radius: 9px;
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-weight: 600;
+  font-size: 13.5px;
+  text-decoration: none;
+  box-shadow: 0 2px 10px oklch(0.575 0.138 46 / 0.3);
+  transition: background 0.15s;
+}
+
+.logRoundLink:hover {
+  background: var(--accent-hover);
+}
+
+.signOutBtn {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg-muted);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.signOutBtn:hover {
+  background: var(--surface-2);
+  color: var(--fg);
+}
+
+/* ===== Empty state ===== */
+.emptyState {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--e1);
+  padding: 48px 32px;
+  text-align: center;
+}
+
+.emptyTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.emptyBody {
+  font-size: 13.5px;
+  color: var(--fg-muted);
+  max-width: 380px;
+  margin: 0 auto 20px;
+}
+
+/* ===== Round list ===== */
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.roundCard {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--e1);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.roundInfo {
+  flex: 1 1 220px;
+  min-width: 180px;
+}
+
+.roundCourse {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.roundTeeBadge {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 10.5px;
+  color: var(--fg-subtle);
+  background: var(--surface-2);
+  border-radius: var(--radius-pill);
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+.roundDate {
+  font-size: 12.5px;
+  color: var(--fg-muted);
+  margin-top: 3px;
+}
+
+.roundHoles {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-subtle);
+  margin-left: 4px;
+}
+
+.grossTile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+  padding: 0 8px;
+}
+
+.grossValue {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.grossLabel {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 9.5px;
+  color: var(--fg-subtle);
+  letter-spacing: 0.04em;
+}
+
+.vsParChip {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 11px;
+  margin-top: 1px;
+}
+
+.statGrid {
+  display: flex;
+  gap: 22px;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  min-width: 44px;
+}
+
+.statLabel {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 9.5px;
+  color: var(--fg-subtle);
+  letter-spacing: 0.04em;
+}
+
+.statValue {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.statValueMuted {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--fg-subtle);
+}
+
+.viewBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--fg-muted);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 12px;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.viewBtn:hover {
+  background: var(--accent-muted);
+  color: var(--accent);
+  border-color: var(--accent);
+}

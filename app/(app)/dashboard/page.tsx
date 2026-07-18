@@ -585,7 +585,7 @@ function EmptyState() {
         </p>
       </div>
       <div className={styles.emptyActions}>
-        <a href="#" className={styles.emptyActionPrimary}>
+        <a href="/rounds/new" className={styles.emptyActionPrimary}>
           <svg width="14" height="14" viewBox="0 0 16 16" stroke="currentColor" strokeWidth="1.8" aria-hidden>
             <line x1="8" y1="3" x2="8" y2="13" />
             <line x1="3" y1="8" x2="13" y2="8" />

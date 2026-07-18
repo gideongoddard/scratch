@@ -1,40 +1,16 @@
 /* ===== Header ===== */
-.header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-}
-
-.headerEyebrow {
-  font-family: var(--font-mono);
-  font-weight: 600;
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--fg-subtle);
-  margin-bottom: 4px;
-}
-
 .headerTitle {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 26px;
+  font-size: 28px;
   letter-spacing: -0.02em;
+  margin-bottom: 24px;
 }
 
 .headerSub {
-  font-family: var(--font-mono);
-  font-size: 12px;
+  font-weight: 500;
+  font-size: 15px;
   color: var(--fg-subtle);
-  font-weight: 400;
-}
-
-.headerActions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .logRoundLink {
@@ -54,23 +30,6 @@
 
 .logRoundLink:hover {
   background: var(--accent-hover);
-}
-
-.signOutBtn {
-  font: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--fg-muted);
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  padding: 10px 14px;
-  cursor: pointer;
-}
-
-.signOutBtn:hover {
-  background: var(--surface-2);
-  color: var(--fg);
 }
 
 /* ===== Empty state ===== */
@@ -101,145 +60,189 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+  max-width: 1080px;
+  container-type: inline-size;
 }
 
 .roundCard {
   background: var(--surface);
   border-radius: var(--radius-card);
   box-shadow: var(--e1);
-  padding: 16px 20px;
+  padding: 18px 20px;
   display: flex;
   align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
+  gap: 16px;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+
+.roundCard:hover {
+  box-shadow: var(--e2);
 }
 
 .roundInfo {
-  flex: 1 1 220px;
-  min-width: 180px;
+  flex: 1 1 260px;
+  min-width: 260px;
 }
 
 .roundCourse {
   display: flex;
-  align-items: baseline;
-  gap: 8px;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 3px;
+}
+
+.roundCourseName {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 16.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .roundTeeBadge {
-  font-family: var(--font-mono);
+  font-size: 11.5px;
   font-weight: 500;
-  font-size: 10.5px;
-  color: var(--fg-subtle);
+  color: var(--fg-muted);
   background: var(--surface-2);
+  padding: 3px 9px;
   border-radius: var(--radius-pill);
-  padding: 2px 8px;
   white-space: nowrap;
+  flex: 0 0 auto;
 }
 
 .roundDate {
   font-size: 12.5px;
+  white-space: nowrap;
+}
+
+.roundDateValue {
+  font-family: var(--font-display);
+  font-weight: 600;
   color: var(--fg-muted);
-  margin-top: 3px;
 }
 
 .roundHoles {
-  font-family: var(--font-mono);
-  font-size: 11px;
   color: var(--fg-subtle);
-  margin-left: 4px;
 }
 
 .grossTile {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   gap: 2px;
   flex: 0 0 auto;
-  padding: 0 8px;
+  padding: 2px 14px;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+.grossLabel {
+  font-size: 11px;
+  color: var(--fg-subtle);
+  font-weight: 600;
 }
 
 .grossValue {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 28px;
+  font-size: 32px;
   line-height: 1;
-}
-
-.grossLabel {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 9.5px;
-  color: var(--fg-subtle);
-  letter-spacing: 0.04em;
+  color: var(--fg);
 }
 
 .vsParChip {
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   font-weight: 600;
-  font-size: 11px;
-  margin-top: 1px;
+  font-size: 13px;
 }
 
 .statGrid {
-  display: flex;
-  gap: 22px;
-  flex: 1 1 auto;
-  justify-content: flex-end;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 38px);
+  gap: 0 10px;
+  flex: 0 0 auto;
 }
 
 .stat {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-  min-width: 44px;
+  align-items: center;
+  text-align: center;
 }
 
 .statLabel {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 9.5px;
+  font-size: 10.5px;
   color: var(--fg-subtle);
-  letter-spacing: 0.04em;
+  font-weight: 600;
+  margin-bottom: 3px;
 }
 
 .statValue {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 15px;
-}
-
-.statValueMuted {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 15px;
-  color: var(--fg-subtle);
-}
-
-.viewBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  flex: 0 0 auto;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--fg-muted);
-  font-family: var(--font-display);
   font-weight: 600;
-  font-size: 12px;
-  text-decoration: none;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  font-size: 15px;
+  color: var(--fg-muted);
 }
 
-.viewBtn:hover {
-  background: var(--accent-muted);
-  color: var(--accent);
-  border-color: var(--accent);
+.chevron {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-subtle);
+  transition: background 0.15s, color 0.15s;
+}
+
+.roundCard:hover .chevron {
+  background: var(--surface-2);
+  color: var(--fg);
+}
+
+/* ===== Responsive: card degrades before it overflows =====
+   Full layout holds until the Net/GIR/Putts/HCP grid no longer fits,
+   then that grid drops; below that the card stacks and the gross
+   tile's side borders become a top divider instead. */
+@container (max-width: 700px) {
+  .statGrid {
+    display: none;
+  }
+}
+
+@container (max-width: 460px) {
+  .roundCard {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .roundInfo {
+    flex: none;
+    min-width: 0;
+  }
+
+  .grossTile {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 8px;
+    padding: 10px 0 0;
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid var(--border);
+  }
+
+  .grossLabel {
+    margin-right: auto;
+  }
+
+  .chevron {
+    display: none;
+  }
 }

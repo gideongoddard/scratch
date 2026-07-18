@@ -97,6 +97,29 @@
   background: var(--accent-hover);
 }
 
+.signOutBtn {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 11px;
+  margin-top: 2px;
+  border-radius: 9px;
+  color: var(--fg-subtle);
+  font: inherit;
+  font-size: 12.5px;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.signOutBtn:hover {
+  background: var(--surface-2);
+  color: var(--fg-muted);
+}
+
 .main {
   flex: 1;
   min-width: 0;

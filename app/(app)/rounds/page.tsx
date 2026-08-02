@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createRepository } from "@/lib/repository";
 import { projectHole, grossTotal, netTotal, girCount, totalPutts, courseHandicap } from "@/lib/derivations";
 import type { Round } from "@/lib/types";
+import { teeMarkerColor } from "@/lib/teeColor";
 import styles from "./page.module.css";
 
 function roundSummary(round: Round) {
@@ -75,13 +76,23 @@ export default async function RoundsPage() {
           <ul className={styles.list}>
             {rounds.map((round) => {
               const { gross, vsPar, net, gir, putts, holeCount } = roundSummary(round);
+              const teeColor = teeMarkerColor(round.courseSnapshot.tee);
               return (
                 <li key={round.id}>
                   <Link href={`/rounds/${round.id}`} className={styles.roundCard}>
                     <div className={styles.roundInfo}>
                       <div className={styles.roundCourse}>
                         <span className={styles.roundCourseName}>{round.courseSnapshot.name}</span>
-                        <span className={styles.roundTeeBadge}>{round.courseSnapshot.tee} tees</span>
+                        <span className={styles.roundTeeBadge}>
+                          {teeColor && (
+                            <span
+                              className={styles.teeSwatch}
+                              style={{ background: teeColor }}
+                              aria-hidden
+                            />
+                          )}
+                          {round.courseSnapshot.tee} tees
+                        </span>
                       </div>
                       <div className={styles.roundDate}>
                         <span className={styles.roundDateValue}>{formatDate(round.playedAt)}</span>

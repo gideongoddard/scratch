@@ -29,9 +29,28 @@
 }
 
 .dateLine {
-  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.dateValue {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--fg);
+}
+
+.metaChip {
+  font-size: 11.5px;
+  font-weight: 500;
   color: var(--fg-muted);
-  margin-top: 4px;
+  background: var(--surface-2);
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
 }
 
 /* ===== Summary strip ===== */

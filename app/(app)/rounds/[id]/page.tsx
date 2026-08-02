@@ -159,9 +159,11 @@ export default async function RoundDetailPage({
             <h1 className={styles.courseName}>{courseSnapshot.name}</h1>
             <TeeBadge tee={courseSnapshot.tee} />
           </div>
-          <p className={styles.dateLine}>
-            {formatDate(round.playedAt)} · {projected.length} holes · par {courseSnapshot.coursePar}
-          </p>
+          <div className={styles.dateLine}>
+            <span className={styles.dateValue}>{formatDate(round.playedAt)}</span>
+            <span className={styles.metaChip}>{projected.length} holes</span>
+            <span className={styles.metaChip}>Par {courseSnapshot.coursePar}</span>
+          </div>
         </div>
       </div>
 

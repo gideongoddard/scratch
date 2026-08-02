@@ -2,6 +2,7 @@ import type {
   CourseHoleTemplate,
   HoleScore,
   ProjectedHole,
+  Round,
 } from "@/lib/types";
 
 export function courseHandicap(
@@ -44,7 +45,7 @@ export function projectHole(
   };
 }
 
-export function grossTotal(holes: ProjectedHole[]): number {
+export function grossTotal(holes: { gross: number }[]): number {
   return holes.reduce((sum, h) => sum + h.gross, 0);
 }
 
@@ -89,4 +90,65 @@ export function scoreBreakdown(holes: ProjectedHole[]): ScoreBreakdown {
 
 export function threePuttCount(holes: ProjectedHole[]): number {
   return holes.filter((h) => h.putts >= 3).length;
+}
+
+export type CourseRecord = {
+  courseId: string;
+  courseName: string;
+  tee: string;
+  coursePar: number;
+  totalYards: number;
+  holeCount: number;
+  roundsPlayed: number;
+  bestGross: number;
+  bestGrossVsPar: number;
+  bestRoundId: string;
+  lastPlayedAt: string;
+};
+
+// Groups rounds by course_id and surfaces the personal-best (lowest gross)
+// round per course. Course display fields come from the most recently
+// played round's snapshot — the frozen record of what was played, not the
+// live course template, which may since have been re-rated.
+export function courseRecords(rounds: Round[]): CourseRecord[] {
+  const groups = new Map<string, Round[]>();
+  for (const round of rounds) {
+    if (!round.courseId) continue;
+    const group = groups.get(round.courseId);
+    if (group) group.push(round);
+    else groups.set(round.courseId, [round]);
+  }
+
+  const records: CourseRecord[] = [];
+  for (const [courseId, group] of groups) {
+    let best = group[0];
+    let bestGross = grossTotal(best.holes);
+    let latest = group[0];
+
+    for (const round of group) {
+      const gross = grossTotal(round.holes);
+      if (gross < bestGross) {
+        bestGross = gross;
+        best = round;
+      }
+      if (round.playedAt > latest.playedAt) latest = round;
+    }
+
+    const snapshot = latest.courseSnapshot;
+    records.push({
+      courseId,
+      courseName: snapshot.name,
+      tee: snapshot.tee,
+      coursePar: snapshot.coursePar,
+      totalYards: snapshot.totalYards,
+      holeCount: snapshot.holes.length,
+      roundsPlayed: group.length,
+      bestGross,
+      bestGrossVsPar: bestGross - best.courseSnapshot.coursePar,
+      bestRoundId: best.id,
+      lastPlayedAt: latest.playedAt,
+    });
+  }
+
+  return records.sort((a, b) => a.courseName.localeCompare(b.courseName));
 }

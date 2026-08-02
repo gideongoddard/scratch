@@ -11,8 +11,9 @@ import {
   fairwayHitRate,
   scoreBreakdown,
   threePuttCount,
+  courseRecords,
 } from "@/lib/derivations";
-import type { CourseHoleTemplate, HoleScore, ProjectedHole } from "@/lib/types";
+import type { CourseHoleTemplate, HoleScore, ProjectedHole, Round } from "@/lib/types";
 
 // ---------------------------------------------------------------------------
 // courseHandicap
@@ -268,5 +269,111 @@ describe("threePuttCount", () => {
   it("returns 0 when no three-putts", () => {
     const holes = [makeProjected(par4Template, bogeyScore, null)]; // putts: 2
     expect(threePuttCount(holes)).toBe(0);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// courseRecords
+// ---------------------------------------------------------------------------
+function makeRound(overrides: Partial<Round> = {}): Round {
+  return {
+    id: "r1",
+    userId: "u1",
+    courseId: "c1",
+    playedAt: "2026-06-01",
+    handicapIndex: null,
+    holes: [
+      { hole: 1, gross: 5, putts: 2, accuracy: "hit", teeClub: null, sandShots: null, penalties: null },
+      { hole: 2, gross: 4, putts: 2, accuracy: "hit", teeClub: null, sandShots: null, penalties: null },
+    ],
+    courseSnapshot: {
+      name: "Humberstone Heights",
+      tee: "Yellow",
+      coursePar: 8,
+      totalYards: 700,
+      slopeRating: null,
+      courseRating: null,
+      holes: [
+        { hole: 1, si: 1, par: 4, yards: 350 },
+        { hole: 2, si: 2, par: 4, yards: 350 },
+      ],
+    },
+    createdAt: "2026-06-01T00:00:00Z",
+    updatedAt: "2026-06-01T00:00:00Z",
+    ...overrides,
+  };
+}
+
+describe("courseRecords", () => {
+  it("groups rounds by courseId, played-count included", () => {
+    const r1 = makeRound({ id: "r1", playedAt: "2026-06-01" });
+    const r2 = makeRound({ id: "r2", playedAt: "2026-06-14" });
+    const records = courseRecords([r1, r2]);
+    expect(records).toHaveLength(1);
+    expect(records[0].roundsPlayed).toBe(2);
+  });
+
+  it("finds the lowest-gross round as the record", () => {
+    const worse = makeRound({
+      id: "r1",
+      playedAt: "2026-06-01",
+      holes: [
+        { hole: 1, gross: 6, putts: 2, accuracy: "hit", teeClub: null, sandShots: null, penalties: null },
+        { hole: 2, gross: 5, putts: 2, accuracy: "hit", teeClub: null, sandShots: null, penalties: null },
+      ],
+    });
+    const better = makeRound({
+      id: "r2",
+      playedAt: "2026-06-14",
+      holes: [
+        { hole: 1, gross: 4, putts: 2, accuracy: "hit", teeClub: null, sandShots: null, penalties: null },
+        { hole: 2, gross: 4, putts: 2, accuracy: "hit", teeClub: null, sandShots: null, penalties: null },
+      ],
+    });
+    const records = courseRecords([worse, better]);
+    expect(records[0].bestRoundId).toBe("r2");
+    expect(records[0].bestGross).toBe(8);
+    expect(records[0].bestGrossVsPar).toBe(0); // par 8
+  });
+
+  it("uses the most recently played round's snapshot for display fields", () => {
+    const earlier = makeRound({
+      id: "r1",
+      playedAt: "2026-06-01",
+      courseSnapshot: { ...makeRound().courseSnapshot, totalYards: 700 },
+    });
+    const later = makeRound({
+      id: "r2",
+      playedAt: "2026-06-14",
+      courseSnapshot: { ...makeRound().courseSnapshot, totalYards: 720 },
+    });
+    const records = courseRecords([earlier, later]);
+    expect(records[0].totalYards).toBe(720);
+    expect(records[0].lastPlayedAt).toBe("2026-06-14");
+  });
+
+  it("ignores rounds with no courseId", () => {
+    const noCourse = makeRound({ id: "r1", courseId: null });
+    expect(courseRecords([noCourse])).toEqual([]);
+  });
+
+  it("sorts records alphabetically by course name", () => {
+    const humberstone = makeRound({ id: "r1", courseId: "c1" });
+    const waterstock = makeRound({
+      id: "r2",
+      courseId: "c2",
+      courseSnapshot: { ...makeRound().courseSnapshot, name: "Waterstock Golf Club" },
+    });
+    const alpha = makeRound({
+      id: "r3",
+      courseId: "c3",
+      courseSnapshot: { ...makeRound().courseSnapshot, name: "Alpha Golf Club" },
+    });
+    const records = courseRecords([humberstone, waterstock, alpha]);
+    expect(records.map((r) => r.courseName)).toEqual([
+      "Alpha Golf Club",
+      "Humberstone Heights",
+      "Waterstock Golf Club",
+    ]);
   });
 });

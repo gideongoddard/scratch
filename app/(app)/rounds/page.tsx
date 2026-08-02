@@ -4,6 +4,7 @@ import { createRepository } from "@/lib/repository";
 import { projectHole, grossTotal, netTotal, girCount, totalPutts, courseHandicap } from "@/lib/derivations";
 import type { Round } from "@/lib/types";
 import { TeeBadge } from "@/components/TeeBadge";
+import { Chip } from "@/components/Chip";
 import styles from "./page.module.css";
 
 function roundSummary(round: Round) {
@@ -57,9 +58,10 @@ export default async function RoundsPage() {
 
   return (
     <div>
-      <h1 className={styles.headerTitle}>
-        Rounds <span className={styles.headerSub}>· {rounds.length} logged</span>
-      </h1>
+      <h1 className={styles.headerTitle}>Rounds</h1>
+      <div className={styles.headerMeta}>
+        <Chip>{rounds.length} logged</Chip>
+      </div>
 
       <main>
         {rounds.length === 0 ? (

@@ -13,36 +13,13 @@
   font-weight: 700;
   font-size: 26px;
   letter-spacing: -0.02em;
+  margin-bottom: 8px;
 }
 
-.headerSub {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--fg-subtle);
-  font-weight: 400;
-}
-
-
-/* ===== Section divider ===== */
-.sectionDivider {
+.headerMeta {
   display: flex;
-  align-items: center;
-  gap: 9px;
-  margin: 22px 2px 12px;
-}
-
-.sectionLabel {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 12px;
-  color: var(--fg-muted);
-  white-space: nowrap;
-}
-
-.sectionRule {
-  flex: 1;
-  height: 1px;
-  background: var(--border);
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 /* ===== KPI cluster layout ===== */
@@ -50,6 +27,7 @@
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
+  margin-top: 12px;
   margin-bottom: 16px;
 }
 
@@ -148,7 +126,8 @@
 }
 
 .scoringTileVsParDelta {
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
+  font-weight: 600;
   font-size: 10px;
   font-variant-numeric: tabular-nums lining-nums;
 }
@@ -196,10 +175,12 @@
 }
 
 .kpiChip {
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
+  font-weight: 600;
   font-size: 9.5px;
   padding: 2px 6px;
   border-radius: var(--radius-pill);
+  font-variant-numeric: tabular-nums lining-nums;
 }
 
 .kpiTileBottom {
@@ -223,7 +204,8 @@
 }
 
 .kpiNote {
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
+  font-weight: 500;
   font-size: 9px;
   color: var(--fg-subtle);
   margin-top: 5px;
@@ -292,7 +274,7 @@
 .fairwayMeta {
   display: flex;
   justify-content: space-between;
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   font-size: 11px;
 }
 
@@ -337,7 +319,7 @@
 }
 
 .girMetaLabel {
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   font-size: 11px;
   color: var(--fg-muted);
 }
@@ -398,16 +380,16 @@
 }
 
 .breakdownTitleSub {
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   font-size: 11px;
   color: var(--fg-subtle);
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .legend {
   display: flex;
   gap: 11px;
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   font-size: 9.5px;
   color: var(--fg-subtle);
   flex-wrap: wrap;
@@ -439,7 +421,7 @@
 }
 
 .breakdownLabel {
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   font-size: 11px;
   color: var(--fg-muted);
   min-width: 48px;
@@ -463,7 +445,7 @@
 }
 
 .breakdownSegCount {
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   font-size: 10px;
   color: oklch(0.26 0.02 56 / 0.74);
   font-weight: 600;

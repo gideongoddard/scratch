@@ -31,6 +31,7 @@ const NAV_ITEMS = [
   {
     href: "/compare",
     label: "Compare",
+    hidden: true, // Phase 3 — not built yet
     icon: (
       <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
         <rect x="2" y="6" width="4" height="8" rx="1" />
@@ -41,6 +42,7 @@ const NAV_ITEMS = [
   {
     href: "/hole-analysis",
     label: "Hole analysis",
+    hidden: true, // Phase 4 — not built yet
     icon: (
       <svg width="15" height="15" viewBox="0 0 16 16" stroke="currentColor" strokeWidth="1.4" fill="none" aria-hidden>
         <circle cx="8" cy="8" r="6" />
@@ -65,7 +67,7 @@ export function NavLinks() {
 
   return (
     <nav>
-      {NAV_ITEMS.map(({ href, label, icon }) => {
+      {NAV_ITEMS.filter((item) => !item.hidden).map(({ href, label, icon }) => {
         const active = pathname === href || (href !== "/" && pathname.startsWith(href));
         return (
           <Link

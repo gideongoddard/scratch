@@ -162,9 +162,10 @@
 }
 
 .holeMeta {
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   font-size: 11px;
   color: var(--fg-subtle);
+  font-variant-numeric: tabular-nums lining-nums;
 }
 
 .cellInput,

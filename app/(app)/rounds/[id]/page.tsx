@@ -15,6 +15,7 @@ import {
 import type { ProjectedHole } from "@/lib/types";
 import { vsParColor, vsParLabel } from "@/lib/scoreColor";
 import { TeeBadge } from "@/components/TeeBadge";
+import { Chip } from "@/components/Chip";
 import { RoundChart } from "./RoundChart";
 import styles from "./page.module.css";
 
@@ -161,8 +162,8 @@ export default async function RoundDetailPage({
           </div>
           <div className={styles.dateLine}>
             <span className={styles.dateValue}>{formatDate(round.playedAt)}</span>
-            <span className={styles.metaChip}>{projected.length} holes</span>
-            <span className={styles.metaChip}>Par {courseSnapshot.coursePar}</span>
+            <Chip>{projected.length} holes</Chip>
+            <Chip>Par {courseSnapshot.coursePar}</Chip>
           </div>
         </div>
       </div>

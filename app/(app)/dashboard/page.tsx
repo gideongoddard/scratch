@@ -11,6 +11,7 @@ import {
   courseHandicap,
 } from "@/lib/derivations";
 import type { Round, ProjectedHole } from "@/lib/types";
+import { Chip } from "@/components/Chip";
 import styles from "./page.module.css";
 
 // ---------------------------------------------------------------------------
@@ -150,12 +151,10 @@ export default async function DashboardPage() {
   const hasTrend = stats.length >= 3;
 
   // Header copy
-  const headerTitle = isFirst
-    ? `Round 1`
-    : `${latest.holeCount}-hole rounds`;
-  const headerCount = isFirst
-    ? `${latest.courseName} · ${latest.holeCount} holes`
-    : `${stats.length} logged`;
+  const formatLabel = isFirst ? `Round 1` : `${latest.holeCount}-hole rounds`;
+  const headerMeta = isFirst
+    ? [formatLabel, latest.courseName, `${latest.holeCount} holes`]
+    : [formatLabel, `${stats.length} logged`];
 
   // KPI data
   const vsParValues = stats.map((s) => s.vsParSum);
@@ -212,18 +211,13 @@ export default async function DashboardPage() {
       {/* Header */}
       <div className={styles.header}>
         <div>
-          <div className={styles.headerEyebrow}>DASHBOARD</div>
-          <h1 className={styles.headerTitle}>
-            {headerTitle}{" "}
-            <span className={styles.headerSub}>· {headerCount}</span>
-          </h1>
+          <h1 className={styles.headerTitle}>Dashboard</h1>
+          <div className={styles.headerMeta}>
+            {headerMeta.map((m) => (
+              <Chip key={m}>{m}</Chip>
+            ))}
+          </div>
         </div>
-      </div>
-
-      {/* Section divider */}
-      <div className={styles.sectionDivider}>
-        <span className={styles.sectionLabel}>The numbers</span>
-        <span className={styles.sectionRule} />
       </div>
 
       {/* KPI tiles */}

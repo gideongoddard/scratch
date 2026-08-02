@@ -2,15 +2,16 @@
 .headerTitle {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 28px;
+  font-size: 26px;
   letter-spacing: -0.02em;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
 }
 
-.headerSub {
-  font-weight: 500;
-  font-size: 15px;
-  color: var(--fg-subtle);
+.headerMeta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 .logRoundLink {

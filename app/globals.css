@@ -8,7 +8,6 @@
   /* — Type families */
   --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
 
   /* — Neutrals (warm greige — light mode) */
   --bg:            oklch(0.983 0.007 74);

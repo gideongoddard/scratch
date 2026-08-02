@@ -126,3 +126,54 @@
   padding: 26px 30px;
   background: var(--bg);
 }
+
+/* ===== Responsive: sidebar collapses to an icon rail =====
+   Frees the vast majority of width back to .main on narrow screens —
+   every route stays reachable, just icon-only instead of labeled. */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 64px;
+    flex: 0 0 64px;
+    padding: 14px 8px;
+    align-items: center;
+  }
+
+  .logoRow {
+    padding: 6px 0 16px;
+    justify-content: center;
+  }
+
+  .logoText {
+    display: none;
+  }
+
+  .handicapRow {
+    display: none;
+  }
+
+  .logRoundBtn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    flex: 0 0 auto;
+    border-radius: 50%;
+  }
+
+  .logRoundLabel {
+    display: none;
+  }
+
+  .signOutBtn {
+    justify-content: center;
+    width: 40px;
+    padding: 9px 0;
+  }
+
+  .signOutLabel {
+    display: none;
+  }
+
+  .main {
+    padding: 18px 14px;
+  }
+}

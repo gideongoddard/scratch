@@ -27,3 +27,16 @@
   font-size: 13.5px;
   text-decoration: none;
 }
+
+@media (max-width: 768px) {
+  .navItem,
+  .navItemActive {
+    justify-content: center;
+    padding: 10px;
+    gap: 0;
+  }
+
+  .navLabel {
+    display: none;
+  }
+}

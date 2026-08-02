@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import styles from "./page.module.css";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -30,36 +31,59 @@ export default function SignInPage() {
   }
 
   return (
-    <main>
-      <h1>Sign in</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            autoComplete="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+    <main className={styles.page}>
+      <div className={styles.card}>
+        <div className={styles.logoRow}>
+          <div className={styles.logoMark}>
+            <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden>
+              <circle cx="8" cy="8" r="2.2" fill="white" />
+              <circle cx="8" cy="8" r="5.6" stroke="white" strokeOpacity="0.5" strokeWidth="1.2" fill="none" />
+            </svg>
+          </div>
+          <span className={styles.logoText}>Scratch</span>
         </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            autoComplete="current-password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        {error && <p role="alert">{error}</p>}
-        <button type="submit" disabled={loading}>
-          {loading ? "Signing in…" : "Sign in"}
-        </button>
-      </form>
+
+        <h1 className={styles.title}>Sign in</h1>
+        <p className={styles.subtitle}>Track your rounds and see your game trend over time.</p>
+
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <label className={styles.field}>
+            <span className={styles.label}>Email</span>
+            <input
+              id="email"
+              type="email"
+              autoComplete="email"
+              required
+              className={styles.input}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </label>
+
+          <label className={styles.field}>
+            <span className={styles.label}>Password</span>
+            <input
+              id="password"
+              type="password"
+              autoComplete="current-password"
+              required
+              className={styles.input}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+
+          {error && (
+            <div className={styles.errorBanner} role="alert">
+              {error}
+            </div>
+          )}
+
+          <button type="submit" disabled={loading} className={styles.submitBtn}>
+            {loading ? "Signing in…" : "Sign in"}
+          </button>
+        </form>
+      </div>
     </main>
   );
 }

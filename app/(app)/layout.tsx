@@ -45,22 +45,22 @@ export default async function AppLayout({
           <span className={styles.handicapValue}>{handicap}</span>
         </div>
 
-        <Link href="/rounds/new" className={styles.logRoundBtn}>
+        <Link href="/rounds/new" className={styles.logRoundBtn} aria-label="Log a round">
           <svg width="14" height="14" viewBox="0 0 16 16" stroke="currentColor" strokeWidth="1.8" aria-hidden>
             <line x1="8" y1="3" x2="8" y2="13" />
             <line x1="3" y1="8" x2="13" y2="8" />
           </svg>
-          Log a round
+          <span className={styles.logRoundLabel}>Log a round</span>
         </Link>
 
         <form action="/auth/sign-out" method="post">
-          <button type="submit" className={styles.signOutBtn}>
+          <button type="submit" className={styles.signOutBtn} aria-label="Sign out">
             <svg width="13" height="13" viewBox="0 0 16 16" stroke="currentColor" strokeWidth="1.5" fill="none" aria-hidden>
               <path d="M6 2 H3.5 A1 1 0 0 0 2.5 3 V13 A1 1 0 0 0 3.5 14 H6" />
               <line x1="6.5" y1="8" x2="14" y2="8" />
               <path d="M11 5 L14 8 L11 11" />
             </svg>
-            Sign out
+            <span className={styles.signOutLabel}>Sign out</span>
           </button>
         </form>
       </aside>

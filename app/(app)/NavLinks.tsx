@@ -74,9 +74,10 @@ export function NavLinks() {
             key={href}
             href={href}
             className={active ? styles.navItemActive : styles.navItem}
+            aria-label={label}
           >
             {icon}
-            {label}
+            <span className={styles.navLabel}>{label}</span>
           </Link>
         );
       })}

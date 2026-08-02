@@ -84,7 +84,9 @@ export default async function RoundsPage() {
                     <div className={styles.roundInfo}>
                       <div className={styles.roundCourse}>
                         <span className={styles.roundCourseName}>{round.courseSnapshot.name}</span>
-                        <TeeBadge tee={round.courseSnapshot.tee} />
+                        <span className={styles.teeBadgeWrap}>
+                          <TeeBadge tee={round.courseSnapshot.tee} />
+                        </span>
                       </div>
                       <div className={styles.roundDate}>
                         <span className={styles.roundDateValue}>{formatDate(round.playedAt)}</span>

@@ -105,6 +105,10 @@
   text-overflow: ellipsis;
 }
 
+.teeBadgeWrap {
+  display: contents;
+}
+
 .roundDate {
   font-size: 12.5px;
   white-space: nowrap;
@@ -202,6 +206,11 @@
    tile's side borders become a top divider instead. */
 @container (max-width: 700px) {
   .statGrid {
+    display: none;
+  }
+
+  /* Tee colour is a nice-to-have, not worth truncating the course name for. */
+  .teeBadgeWrap {
     display: none;
   }
 }

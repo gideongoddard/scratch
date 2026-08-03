@@ -226,7 +226,23 @@ Reject or flag, don't silently accept:
 - Proceed **phase by phase**. Explain decisions before writing the code for them.
 - Derivation and projection functions are **unit-tested before any UI consumes
   them** — this is how round correctness and accurate comparison are guaranteed.
-- One branch/commit per phase.
+- **Git workflow is driven by Linear issues, one feature branch per issue:**
+  1. Before starting a new issue, `git checkout main` and pull the latest
+     remote `main` — never branch off a stale local `main`.
+  2. Create the branch using the **exact git branch name Linear generates**
+     for that issue (its "Copy git branch name" action). That's what links
+     the branch/PR back to the issue — no issue-ID prefix is needed in
+     commit messages as a result.
+  3. Push the new branch to the remote immediately, before any commits, then
+     begin work on the issue.
+  4. Commit locally as work progresses; only push again once explicitly told
+     the work is ready to go back up.
+  5. **Never push to `main` directly, and never open or merge the PR** —
+     that's done manually on GitHub. Merging is what ships the work: Vercel
+     is connected to the repo and auto-deploys on every push/merge to `main`.
+- **Creating Linear issues for this project:** always create them in the
+  **Scratch** Linear project, and always set an **estimate** (scale: 1, 2, 3,
+  5, 8) — no issue should be left unestimated.
 - Design tokens live in `app/globals.css` as `:root` CSS custom properties
   (short names: `--bg`, `--surface`, `--accent`, `--e1`, `--c1`, etc.). The
   Claude Design handoff files live in `design/`. The authoritative token source

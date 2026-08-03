@@ -134,7 +134,7 @@ export default async function RoundDetailPage({
     .sort((a, b) => a.hole - b.hole)
     .map((score) => {
       const template = courseSnapshot.holes.find((h) => h.hole === score.hole)!;
-      return projectHole(template, score, ch);
+      return projectHole(template, score, ch, courseSnapshot.holes.length);
     });
 
   const gross = grossTotal(projected);

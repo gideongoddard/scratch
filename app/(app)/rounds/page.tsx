@@ -24,7 +24,7 @@ function roundSummary(round: Round) {
 
   const projected = holes.map((score) => {
     const template = courseSnapshot.holes.find((h) => h.hole === score.hole)!;
-    return projectHole(template, score, ch);
+    return projectHole(template, score, ch, courseSnapshot.holes.length);
   });
 
   const gross = grossTotal(projected);

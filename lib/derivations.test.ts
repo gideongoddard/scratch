@@ -45,40 +45,73 @@ describe("courseHandicap", () => {
 // ---------------------------------------------------------------------------
 describe("strokesReceived", () => {
   it("gives 0 strokes when course handicap is 0", () => {
-    expect(strokesReceived(1, 0)).toBe(0);
-    expect(strokesReceived(18, 0)).toBe(0);
+    expect(strokesReceived(1, 0, 18)).toBe(0);
+    expect(strokesReceived(18, 0, 18)).toBe(0);
   });
 
   it("gives 1 stroke on all holes when ch = 18", () => {
     for (let si = 1; si <= 18; si++) {
-      expect(strokesReceived(si, 18)).toBe(1);
+      expect(strokesReceived(si, 18, 18)).toBe(1);
     }
   });
 
   it("gives 2 strokes on SI 1–12, 1 on SI 13–18 when ch = 30", () => {
     for (let si = 1; si <= 12; si++) {
-      expect(strokesReceived(si, 30)).toBe(2);
+      expect(strokesReceived(si, 30, 18)).toBe(2);
     }
     for (let si = 13; si <= 18; si++) {
-      expect(strokesReceived(si, 30)).toBe(1);
+      expect(strokesReceived(si, 30, 18)).toBe(1);
     }
   });
 
   it("gives 2 strokes on all holes when ch = 36", () => {
     for (let si = 1; si <= 18; si++) {
-      expect(strokesReceived(si, 36)).toBe(2);
+      expect(strokesReceived(si, 36, 18)).toBe(2);
     }
   });
 
-  it("strokes sum equals course handicap", () => {
+  it("strokes sum equals course handicap (18 holes)", () => {
     const ch = 31;
-    const total = Array.from({ length: 18 }, (_, i) => strokesReceived(i + 1, ch))
+    const total = Array.from({ length: 18 }, (_, i) => strokesReceived(i + 1, ch, 18))
       .reduce((a, b) => a + b, 0);
     expect(total).toBe(ch);
   });
 
   it("returns 0 for negative ch", () => {
-    expect(strokesReceived(1, -2)).toBe(0);
+    expect(strokesReceived(1, -2, 18)).toBe(0);
+  });
+
+  // Regression: a 9-hole round must allocate strokes over 9 holes, not 18 —
+  // the same (si, ch) pair should receive different strokes depending on holeCount.
+  describe("9-hole rounds", () => {
+    it("gives 1 stroke on all holes when ch = 9", () => {
+      for (let si = 1; si <= 9; si++) {
+        expect(strokesReceived(si, 9, 9)).toBe(1);
+      }
+    });
+
+    it("gives 2 strokes on SI 1–4, 1 on SI 5–9 when ch = 13", () => {
+      for (let si = 1; si <= 4; si++) {
+        expect(strokesReceived(si, 13, 9)).toBe(2);
+      }
+      for (let si = 5; si <= 9; si++) {
+        expect(strokesReceived(si, 13, 9)).toBe(1);
+      }
+    });
+
+    it("strokes sum equals course handicap (9 holes)", () => {
+      const ch = 13;
+      const total = Array.from({ length: 9 }, (_, i) => strokesReceived(i + 1, ch, 9))
+        .reduce((a, b) => a + b, 0);
+      expect(total).toBe(ch);
+    });
+
+    it("allocates differently than an 18-hole count for the same (si, ch)", () => {
+      // holeCount 18: base=floor(13/18)=0, extra=13 → si 3 <= 13 → 1 stroke
+      // holeCount 9:  base=floor(13/9)=1,  extra=4  → si 3 <= 4  → 2 strokes
+      expect(strokesReceived(3, 13, 18)).toBe(1);
+      expect(strokesReceived(3, 13, 9)).toBe(2);
+    });
   });
 });
 
@@ -116,7 +149,7 @@ const parScore: HoleScore = { hole: 7, gross: 3, putts: 2, accuracy: "hit", teeC
 describe("projectHole", () => {
   it("calculates net and scoreVsPar with a handicap", () => {
     // ch = 31: SI 10 gets 2 strokes (10 <= 31%18=13 → extra stroke on top of base 1)
-    const projected = projectHole(par4Template, bogeyScore, 31);
+    const projected = projectHole(par4Template, bogeyScore, 31, 18);
     expect(projected.strokesReceived).toBe(2);
     expect(projected.net).toBe(3); // 5 - 2
     expect(projected.scoreVsPar).toBe(1); // 5 - 4
@@ -124,15 +157,25 @@ describe("projectHole", () => {
   });
 
   it("returns null net fields when no handicap", () => {
-    const projected = projectHole(par4Template, bogeyScore, null);
+    const projected = projectHole(par4Template, bogeyScore, null, 18);
     expect(projected.strokesReceived).toBeNull();
     expect(projected.net).toBeNull();
     expect(projected.netVsPar).toBeNull();
     expect(projected.scoreVsPar).toBe(1);
   });
 
+  it("allocates strokes by the played hole count, not a hardcoded 18", () => {
+    // ch = 13, SI 10: holeCount 9 → base=1, extra=4 → 10 <= 4 is false → 1 stroke.
+    // holeCount 18 → base=0, extra=13 → 10 <= 13 → 1 stroke too, so pick an SI
+    // that diverges: SI 3, ch 13 → 9-hole gives 2 strokes, 18-hole gives 1.
+    const nine = projectHole({ ...par4Template, si: 3 }, bogeyScore, 13, 9);
+    const eighteen = projectHole({ ...par4Template, si: 3 }, bogeyScore, 13, 18);
+    expect(nine.strokesReceived).toBe(2);
+    expect(eighteen.strokesReceived).toBe(1);
+  });
+
   it("merges template and score fields and derives gir", () => {
-    const projected = projectHole(par4Template, bogeyScore, 31);
+    const projected = projectHole(par4Template, bogeyScore, 31, 18);
     expect(projected.par).toBe(4);
     expect(projected.yards).toBe(350);
     expect(projected.gross).toBe(5);
@@ -148,9 +191,10 @@ describe("projectHole", () => {
 function makeProjected(
   template: CourseHoleTemplate,
   score: HoleScore,
-  ch: number | null
+  ch: number | null,
+  holeCount = 18
 ): ProjectedHole {
-  return projectHole(template, score, ch);
+  return projectHole(template, score, ch, holeCount);
 }
 
 describe("grossTotal", () => {

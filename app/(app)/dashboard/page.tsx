@@ -146,6 +146,9 @@ export default async function DashboardPage() {
   const latest = stats[stats.length - 1];
   const prev = stats.length >= 2 ? stats[stats.length - 2] : null;
   const isFirst = stats.length === 1;
+  // Sparklines/deltas need chronological order, but per-round lists below
+  // read best most-recent-first.
+  const statsByRecent = [...stats].reverse();
   // Deltas and sparklines only earn their place at ≥3 rounds — two points
   // imply a direction they haven't earned yet.
   const hasTrend = stats.length >= 3;
@@ -427,7 +430,7 @@ export default async function DashboardPage() {
               : "Fairway hit rate per round off the tee (par-4s and par-5s only)."}
           </p>
           <div className={styles.fairwayList}>
-            {stats.map((s) => {
+            {statsByRecent.map((s) => {
               const pct = s.fairwayPct;
               if (pct === null) return null;
               const color = pct < 70 ? "var(--bad)" : "var(--c1)";
@@ -459,7 +462,7 @@ export default async function DashboardPage() {
           <h3 className={styles.cardTitle}>Greens hit</h3>
           <p className={styles.cardSubtitle}>Each dot a hole · filled = green hit.</p>
           <div className={styles.girList}>
-            {stats.map((s) => (
+            {statsByRecent.map((s) => (
               <div key={s.id} className={styles.girRow}>
                 <div className={styles.girMeta}>
                   <span className={styles.girMetaLabel}>{s.date} · {s.courseName}</span>
@@ -513,7 +516,7 @@ export default async function DashboardPage() {
         </div>
 
         <div className={styles.breakdownRows}>
-          {stats.map((s) => {
+          {statsByRecent.map((s) => {
             const total = s.holeCount;
             const segs = [
               { key: "parBetter", color: "var(--s-par)", count: s.breakdown.parBetter },

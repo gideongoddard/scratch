@@ -75,7 +75,7 @@ function projectRound(round: Round): ProjectedHole[] {
   const sorted = [...holes].sort((a, b) => a.hole - b.hole);
   return sorted.map((score) => {
     const template = courseSnapshot.holes.find((h) => h.hole === score.hole)!;
-    return projectHole(template, score, ch);
+    return projectHole(template, score, ch, courseSnapshot.holes.length);
   });
 }
 

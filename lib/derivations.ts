@@ -16,10 +16,10 @@ export function courseHandicap(
   );
 }
 
-export function strokesReceived(si: number, ch: number): number {
+export function strokesReceived(si: number, ch: number, holeCount: number): number {
   if (ch <= 0) return 0;
-  const base = Math.floor(ch / 18);
-  const extra = ch % 18;
+  const base = Math.floor(ch / holeCount);
+  const extra = ch % holeCount;
   return base + (si <= extra ? 1 : 0);
 }
 
@@ -30,9 +30,10 @@ export function gir(gross: number, putts: number, par: number): boolean {
 export function projectHole(
   template: CourseHoleTemplate,
   score: HoleScore,
-  ch: number | null
+  ch: number | null,
+  holeCount: number
 ): ProjectedHole {
-  const strokes = ch !== null ? strokesReceived(template.si, ch) : null;
+  const strokes = ch !== null ? strokesReceived(template.si, ch, holeCount) : null;
   const net = strokes !== null ? score.gross - strokes : null;
   return {
     ...template,

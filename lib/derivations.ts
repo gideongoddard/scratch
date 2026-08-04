@@ -46,6 +46,31 @@ export function projectHole(
   };
 }
 
+// Projects every hole a round played into a ProjectedHole (net, GIR, vs-par,
+// etc.), computing the round's course handicap once from its snapshotted
+// ratings and handicap index. The single place this logic should live —
+// UI code should never re-derive ch or map holes through projectHole itself.
+export function projectRound(round: Round): ProjectedHole[] {
+  const { courseSnapshot, holes, handicapIndex } = round;
+  const ch =
+    handicapIndex !== null &&
+    courseSnapshot.slopeRating !== null &&
+    courseSnapshot.courseRating !== null
+      ? courseHandicap(
+          handicapIndex,
+          courseSnapshot.slopeRating,
+          courseSnapshot.courseRating,
+          courseSnapshot.coursePar
+        )
+      : null;
+
+  const sorted = [...holes].sort((a, b) => a.hole - b.hole);
+  return sorted.map((score) => {
+    const template = courseSnapshot.holes.find((h) => h.hole === score.hole)!;
+    return projectHole(template, score, ch, courseSnapshot.holes.length);
+  });
+}
+
 export function grossTotal(holes: { gross: number }[]): number {
   return holes.reduce((sum, h) => sum + h.gross, 0);
 }

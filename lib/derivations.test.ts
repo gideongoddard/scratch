@@ -4,6 +4,7 @@ import {
   strokesReceived,
   gir,
   projectHole,
+  projectRound,
   grossTotal,
   netTotal,
   totalPutts,
@@ -182,6 +183,68 @@ describe("projectHole", () => {
     expect(projected.putts).toBe(2);
     // gross(5) - putts(2) = 3 > par(4) - 2 = 2 → not GIR
     expect(projected.gir).toBe(false);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// projectRound — the shared per-round projection used by every page instead
+// of each page re-deriving ch and mapping holes through projectHole itself.
+// ---------------------------------------------------------------------------
+describe("projectRound", () => {
+  const nineHoleSnapshot = {
+    name: "Test Course",
+    tee: "Yellow",
+    coursePar: 36,
+    totalYards: 3000,
+    slopeRating: 118,
+    courseRating: 71.5,
+    holes: Array.from({ length: 9 }, (_, i) => ({
+      hole: i + 1,
+      si: i + 1,
+      par: 4,
+      yards: 350,
+    })),
+  };
+
+  function makeNineHoleRound(handicapIndex: number | null): Round {
+    return {
+      id: "r1",
+      userId: "u1",
+      courseId: "c1",
+      playedAt: "2026-06-01",
+      handicapIndex,
+      // Deliberately out of hole order, to assert projectRound sorts.
+      holes: Array.from({ length: 9 }, (_, i) => ({
+        hole: i + 1,
+        gross: 5,
+        putts: 2,
+        accuracy: "hit" as const,
+        teeClub: null,
+        sandShots: null,
+        penalties: null,
+      })).reverse(),
+      courseSnapshot: nineHoleSnapshot,
+      createdAt: "2026-06-01T00:00:00Z",
+      updatedAt: "2026-06-01T00:00:00Z",
+    };
+  }
+
+  it("sorts holes by hole number regardless of input order", () => {
+    const projected = projectRound(makeNineHoleRound(null));
+    expect(projected.map((h) => h.hole)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  });
+
+  it("returns null net fields when handicapIndex is null", () => {
+    const projected = projectRound(makeNineHoleRound(null));
+    expect(projected.every((h) => h.net === null)).toBe(true);
+  });
+
+  it("computes course handicap and allocates strokes over the played hole count (9, not 18)", () => {
+    // ch = round(10 * (118/113) + (71.5 - 36)) = round(45.94) = 46
+    // Over 9 holes: base = floor(46/9) = 5, extra = 46 % 9 = 1 → only SI 1 gets the extra stroke.
+    const projected = projectRound(makeNineHoleRound(10));
+    expect(projected.find((h) => h.hole === 1)!.strokesReceived).toBe(6);
+    expect(projected.find((h) => h.hole === 2)!.strokesReceived).toBe(5);
   });
 });
 

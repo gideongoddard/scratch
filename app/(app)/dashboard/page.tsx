@@ -1,16 +1,15 @@
 import { createClient } from "@/lib/supabase/server";
 import { createRepository } from "@/lib/repository";
 import {
-  projectHole,
+  projectRound,
   grossTotal,
   totalPutts,
   girCount,
   fairwayHitRate,
   scoreBreakdown,
   threePuttCount,
-  courseHandicap,
 } from "@/lib/derivations";
-import type { Round, ProjectedHole } from "@/lib/types";
+import type { Round } from "@/lib/types";
 import { Chip } from "@/components/Chip";
 import styles from "./page.module.css";
 
@@ -52,31 +51,6 @@ function sparkPoints(values: number[], min: number, max: number): string {
       return `${x.toFixed(1)},${y.toFixed(1)}`;
     })
     .join(" ");
-}
-
-// ---------------------------------------------------------------------------
-// Per-round projection (null ch since all seeded rounds have no handicap)
-// ---------------------------------------------------------------------------
-
-function projectRound(round: Round): ProjectedHole[] {
-  const { courseSnapshot, holes, handicapIndex } = round;
-  const ch =
-    handicapIndex !== null &&
-    courseSnapshot.slopeRating !== null &&
-    courseSnapshot.courseRating !== null
-      ? courseHandicap(
-          handicapIndex,
-          courseSnapshot.slopeRating,
-          courseSnapshot.courseRating,
-          courseSnapshot.coursePar
-        )
-      : null;
-
-  const sorted = [...holes].sort((a, b) => a.hole - b.hole);
-  return sorted.map((score) => {
-    const template = courseSnapshot.holes.find((h) => h.hole === score.hole)!;
-    return projectHole(template, score, ch, courseSnapshot.holes.length);
-  });
 }
 
 function computeRoundStats(round: Round, index: number): RoundStats {

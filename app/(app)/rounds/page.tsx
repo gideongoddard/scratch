@@ -1,41 +1,23 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { createRepository } from "@/lib/repository";
-import { projectHole, grossTotal, netTotal, girCount, totalPutts, courseHandicap } from "@/lib/derivations";
+import { projectRound, grossTotal, netTotal, girCount, totalPutts } from "@/lib/derivations";
 import type { Round } from "@/lib/types";
 import { TeeBadge } from "@/components/TeeBadge";
 import { Chip } from "@/components/Chip";
 import styles from "./page.module.css";
 
 function roundSummary(round: Round) {
-  const { courseSnapshot, holes, handicapIndex } = round;
-
-  const ch =
-    handicapIndex !== null &&
-    courseSnapshot.slopeRating !== null &&
-    courseSnapshot.courseRating !== null
-      ? courseHandicap(
-          handicapIndex,
-          courseSnapshot.slopeRating,
-          courseSnapshot.courseRating,
-          courseSnapshot.coursePar
-        )
-      : null;
-
-  const projected = holes.map((score) => {
-    const template = courseSnapshot.holes.find((h) => h.hole === score.hole)!;
-    return projectHole(template, score, ch, courseSnapshot.holes.length);
-  });
-
+  const projected = projectRound(round);
   const gross = grossTotal(projected);
 
   return {
     gross,
-    vsPar: gross - courseSnapshot.coursePar,
+    vsPar: gross - round.courseSnapshot.coursePar,
     net: netTotal(projected),
     gir: girCount(projected),
     putts: totalPutts(projected),
-    holeCount: holes.length,
+    holeCount: round.holes.length,
   };
 }
 

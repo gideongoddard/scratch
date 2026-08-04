@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { createRepository } from "@/lib/repository";
 import { projectRound, grossTotal, netTotal, girCount, totalPutts } from "@/lib/derivations";
+import { vsParColor } from "@/lib/scoreColor";
 import type { Round } from "@/lib/types";
 import { TeeBadge } from "@/components/TeeBadge";
 import { Chip } from "@/components/Chip";
@@ -19,10 +20,6 @@ function roundSummary(round: Round) {
     putts: totalPutts(projected),
     holeCount: round.holes.length,
   };
-}
-
-function vsParColor(vsPar: number): string {
-  return vsPar <= 0 ? "var(--good)" : "var(--bad)";
 }
 
 function formatDate(iso: string) {

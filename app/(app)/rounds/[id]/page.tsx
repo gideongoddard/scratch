@@ -3,14 +3,13 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createRepository } from "@/lib/repository";
 import {
-  projectHole,
+  projectRound,
   grossTotal,
   netTotal,
   girCount,
   totalPutts,
   threePuttCount,
   fairwayHitRate,
-  courseHandicap,
 } from "@/lib/derivations";
 import type { ProjectedHole } from "@/lib/types";
 import { vsParColor, vsParLabel } from "@/lib/scoreColor";
@@ -116,26 +115,9 @@ export default async function RoundDetailPage({
     notFound();
   }
 
-  const { courseSnapshot, holes, handicapIndex } = round;
+  const { courseSnapshot, handicapIndex } = round;
 
-  const ch =
-    handicapIndex !== null &&
-    courseSnapshot.slopeRating !== null &&
-    courseSnapshot.courseRating !== null
-      ? courseHandicap(
-          handicapIndex,
-          courseSnapshot.slopeRating,
-          courseSnapshot.courseRating,
-          courseSnapshot.coursePar
-        )
-      : null;
-
-  const projected = [...holes]
-    .sort((a, b) => a.hole - b.hole)
-    .map((score) => {
-      const template = courseSnapshot.holes.find((h) => h.hole === score.hole)!;
-      return projectHole(template, score, ch, courseSnapshot.holes.length);
-    });
+  const projected = projectRound(round);
 
   const gross = grossTotal(projected);
   const vsPar = gross - courseSnapshot.coursePar;

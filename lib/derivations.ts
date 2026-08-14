@@ -64,10 +64,17 @@ export function projectRound(round: Round): ProjectedHole[] {
         )
       : null;
 
+  const templatesByHole = new Map(courseSnapshot.holes.map((h) => [h.hole, h]));
   const sorted = [...holes].sort((a, b) => a.hole - b.hole);
-  return sorted.map((score) => {
-    const template = courseSnapshot.holes.find((h) => h.hole === score.hole)!;
-    return projectHole(template, score, ch, courseSnapshot.holes.length);
+  return sorted.flatMap((score) => {
+    const template = templatesByHole.get(score.hole);
+    if (!template) {
+      console.warn(
+        `Round ${round.id}: hole ${score.hole} has no matching template in its snapshot — skipping.`
+      );
+      return [];
+    }
+    return [projectHole(template, score, ch, courseSnapshot.holes.length)];
   });
 }
 

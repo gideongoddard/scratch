@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import {
   courseHandicap,
   strokesReceived,
@@ -245,6 +245,28 @@ describe("projectRound", () => {
     const projected = projectRound(makeNineHoleRound(10));
     expect(projected.find((h) => h.hole === 1)!.strokesReceived).toBe(6);
     expect(projected.find((h) => h.hole === 2)!.strokesReceived).toBe(5);
+  });
+
+  it("skips a hole score with no matching template instead of throwing", () => {
+    const round = makeNineHoleRound(null);
+    round.holes = [...round.holes, {
+      hole: 99,
+      gross: 4,
+      putts: 2,
+      accuracy: "hit",
+      teeClub: null,
+      sandShots: null,
+      penalties: null,
+    }];
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    const projected = projectRound(round);
+
+    expect(projected.map((h) => h.hole)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining("hole 99 has no matching template")
+    );
+    warnSpy.mockRestore();
   });
 });
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { validateRoundInput } from "@/lib/validateRound";
-import type { CourseSnapshot, HoleScore } from "@/lib/types";
+import { validateRoundInput, validateDraftHoles } from "@/lib/validateRound";
+import type { CourseSnapshot, DraftHoleScore, HoleScore } from "@/lib/types";
 
 function makeSnapshot(overrides: Partial<CourseSnapshot> = {}): CourseSnapshot {
   const holes = Array.from({ length: 9 }, (_, i) => ({
@@ -114,5 +114,56 @@ describe("validateRoundInput", () => {
     holes[0] = { ...holes[0], accuracy: "centre" };
     const errors = validateRoundInput(9, snapshot, holes);
     expect(errors).toContain("Hole 1: invalid accuracy value.");
+  });
+});
+
+function makeDraftHole(overrides: Partial<DraftHoleScore> = {}): DraftHoleScore {
+  return {
+    hole: 1,
+    gross: null,
+    putts: null,
+    accuracy: null,
+    teeClub: null,
+    sandShots: null,
+    penalties: null,
+    ...overrides,
+  };
+}
+
+describe("validateDraftHoles", () => {
+  it("accepts a round with every hole untouched", () => {
+    const holes = [1, 2, 3].map((hole) => makeDraftHole({ hole }));
+    expect(validateDraftHoles(holes)).toEqual([]);
+  });
+
+  it("accepts a mix of untouched and logged holes", () => {
+    const holes = [
+      makeDraftHole({ hole: 1, gross: 4, putts: 2, accuracy: "hit" }),
+      makeDraftHole({ hole: 2 }),
+    ];
+    expect(validateDraftHoles(holes)).toEqual([]);
+  });
+
+  it("rejects a duplicate hole number", () => {
+    const holes = [makeDraftHole({ hole: 1 }), makeDraftHole({ hole: 1 })];
+    expect(validateDraftHoles(holes)).toContain("Hole 1 was scored more than once.");
+  });
+
+  it("rejects gross below 1 when set", () => {
+    const holes = [makeDraftHole({ hole: 1, gross: 0 })];
+    expect(validateDraftHoles(holes)).toContain("Hole 1: gross score must be at least 1.");
+  });
+
+  it("rejects negative putts when set", () => {
+    const holes = [makeDraftHole({ hole: 1, putts: -1 })];
+    expect(validateDraftHoles(holes)).toContain("Hole 1: putts cannot be negative.");
+  });
+
+  it("rejects an invalid accuracy value when set", () => {
+    const holes = [
+      // @ts-expect-error deliberately invalid
+      makeDraftHole({ hole: 1, accuracy: "centre" }),
+    ];
+    expect(validateDraftHoles(holes)).toContain("Hole 1: invalid accuracy value.");
   });
 });

@@ -61,11 +61,34 @@ export type Round = {
   courseId: string | null;
   playedAt: string;
   handicapIndex: number | null;
+  status: "complete";
   holes: HoleScore[];
   courseSnapshot: CourseSnapshot;
   createdAt: string;
   updatedAt: string;
 };
 
+export type DraftHoleScore = {
+  hole: number;
+  gross: number | null;
+  putts: number | null;
+  accuracy: Accuracy | null;
+  teeClub: TeeClub | null;
+  sandShots: number | null;
+  penalties: number | null;
+};
+
+export type DraftRound = {
+  id: string;
+  userId: string;
+  courseId: string | null;
+  playedAt: string;
+  handicapIndex: number | null;
+  status: "in_progress";
+  holes: DraftHoleScore[];
+  courseSnapshot: CourseSnapshot;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type CourseInput = Omit<Course, "id" | "userId" | "createdAt" | "updatedAt">;
-export type RoundInput = Omit<Round, "id" | "userId" | "createdAt" | "updatedAt">;

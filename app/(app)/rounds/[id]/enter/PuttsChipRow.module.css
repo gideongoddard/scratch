@@ -1,0 +1,28 @@
+.row {
+  display: flex;
+  gap: 8px;
+}
+
+.pill,
+.pillActive {
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  flex: 1;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--fg-muted);
+  cursor: pointer;
+}
+
+.pill:hover {
+  background: var(--surface-2);
+}
+
+.pillActive {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--accent-fg);
+}

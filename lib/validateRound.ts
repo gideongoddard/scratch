@@ -1,4 +1,4 @@
-import type { Accuracy, CourseSnapshot, HoleScore } from "@/lib/types";
+import type { Accuracy, CourseSnapshot, DraftHoleScore, HoleScore } from "@/lib/types";
 
 const VALID_ACCURACY: Accuracy[] = ["hit", "left", "right", "short", "long"];
 
@@ -54,6 +54,37 @@ export function validateRoundInput(
       errors.push(`Hole ${score.hole}: putts cannot be negative.`);
     }
     if (!VALID_ACCURACY.includes(score.accuracy)) {
+      errors.push(`Hole ${score.hole}: invalid accuracy value.`);
+    }
+  }
+
+  return errors;
+}
+
+/**
+ * Structural validation for a single tap into an in-progress draft round
+ * (GOD-212) — deliberately lighter than validateRoundInput: no snapshot/
+ * course lookup, no "every hole scored" completeness check, since a draft
+ * is legitimately incomplete until Finish. Unset fields (null) are always
+ * valid — "not recorded yet", never a validation failure.
+ */
+export function validateDraftHoles(holes: DraftHoleScore[]): string[] {
+  const errors: string[] = [];
+
+  const seen = new Set<number>();
+  for (const score of holes) {
+    if (seen.has(score.hole)) {
+      errors.push(`Hole ${score.hole} was scored more than once.`);
+    }
+    seen.add(score.hole);
+
+    if (score.gross !== null && (!Number.isFinite(score.gross) || score.gross < 1)) {
+      errors.push(`Hole ${score.hole}: gross score must be at least 1.`);
+    }
+    if (score.putts !== null && (!Number.isFinite(score.putts) || score.putts < 0)) {
+      errors.push(`Hole ${score.hole}: putts cannot be negative.`);
+    }
+    if (score.accuracy !== null && !VALID_ACCURACY.includes(score.accuracy)) {
       errors.push(`Hole ${score.hole}: invalid accuracy value.`);
     }
   }

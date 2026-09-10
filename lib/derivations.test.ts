@@ -213,6 +213,7 @@ describe("projectRound", () => {
       courseId: "c1",
       playedAt: "2026-06-01",
       handicapIndex,
+      status: "complete",
       // Deliberately out of hole order, to assert projectRound sorts.
       holes: Array.from({ length: 9 }, (_, i) => ({
         hole: i + 1,
@@ -411,6 +412,7 @@ function makeRound(overrides: Partial<Round> = {}): Round {
     courseId: "c1",
     playedAt: "2026-06-01",
     handicapIndex: null,
+    status: "complete",
     holes: [
       { hole: 1, gross: 5, putts: 2, accuracy: "hit", teeClub: null, sandShots: null, penalties: null },
       { hole: 2, gross: 4, putts: 2, accuracy: "hit", teeClub: null, sandShots: null, penalties: null },

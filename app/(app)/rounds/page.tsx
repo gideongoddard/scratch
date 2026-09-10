@@ -3,7 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { createRepository } from "@/lib/repository";
 import { projectRound, grossTotal, netTotal, girCount, totalPutts } from "@/lib/derivations";
 import { vsParColor } from "@/lib/scoreColor";
-import type { Round } from "@/lib/types";
+import { isHoleLogged } from "@/lib/roundProgress";
+import type { DraftRound, Round } from "@/lib/types";
 import { TeeBadge } from "@/components/TeeBadge";
 import { Chip } from "@/components/Chip";
 import styles from "./page.module.css";
@@ -30,10 +31,17 @@ function formatDate(iso: string) {
   });
 }
 
+function draftProgress(draft: DraftRound) {
+  return {
+    logged: draft.holes.filter(isHoleLogged).length,
+    total: draft.holes.length,
+  };
+}
+
 export default async function RoundsPage() {
   const supabase = await createClient();
   const repo = createRepository(supabase);
-  const rounds = await repo.getRounds();
+  const [rounds, drafts] = await Promise.all([repo.getRounds(), repo.getDraftRounds()]);
 
   return (
     <div>
@@ -43,6 +51,42 @@ export default async function RoundsPage() {
       </div>
 
       <main>
+        {drafts.length > 0 && (
+          <div className={styles.draftSection}>
+            <h2 className={styles.draftHeading}>In progress</h2>
+            <ul className={styles.draftList}>
+              {drafts.map((draft) => {
+                const { logged, total } = draftProgress(draft);
+                return (
+                  <li key={draft.id}>
+                    <Link href={`/rounds/${draft.id}/enter`} className={styles.draftCard}>
+                      <div className={styles.roundInfo}>
+                        <div className={styles.roundCourse}>
+                          <span className={styles.roundCourseName}>{draft.courseSnapshot.name}</span>
+                          <span className={styles.teeBadgeWrap}>
+                            <TeeBadge tee={draft.courseSnapshot.tee} />
+                          </span>
+                        </div>
+                        <div className={styles.roundDate}>
+                          <span className={styles.roundDateValue}>{formatDate(draft.playedAt)}</span>
+                        </div>
+                      </div>
+                      <span className={styles.draftProgress}>
+                        {logged}/{total} holes logged
+                      </span>
+                      <div className={styles.chevron} aria-hidden>
+                        <svg width="15" height="15" viewBox="0 0 16 16" stroke="currentColor" strokeWidth="1.6" fill="none">
+                          <path d="M6 3 L11 8 L6 13" />
+                        </svg>
+                      </div>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+
         {rounds.length === 0 ? (
           <div className={styles.emptyState}>
             <h2 className={styles.emptyTitle}>No rounds yet</h2>

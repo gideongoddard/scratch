@@ -1,0 +1,59 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.tile,
+.tileActive,
+.moreTile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 60px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--fg);
+  font: inherit;
+  cursor: pointer;
+}
+
+.tile:hover {
+  background: var(--surface-2);
+}
+
+.tileActive {
+  border-color: transparent;
+  box-shadow: 0 3px 12px oklch(0.3 0.03 58 / 0.18);
+}
+
+.tileNum {
+  font-weight: 700;
+  font-size: 19px;
+}
+
+.tileLabel {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--fg-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.tileActive .tileLabel {
+  color: inherit;
+  opacity: 0.85;
+}
+
+.moreTile {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+
+.moreTile:hover {
+  background: var(--surface-2);
+}

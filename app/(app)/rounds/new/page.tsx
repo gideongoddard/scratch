@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { createRepository } from "@/lib/repository";
-import { RoundForm } from "./RoundForm";
+import { StartRoundForm } from "./StartRoundForm";
 import styles from "./page.module.css";
 
 export default async function NewRoundPage() {
@@ -20,5 +20,5 @@ export default async function NewRoundPage() {
     );
   }
 
-  return <RoundForm courses={courses} />;
+  return <StartRoundForm courses={courses} />;
 }

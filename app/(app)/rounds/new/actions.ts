@@ -4,22 +4,19 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createRepository } from "@/lib/repository";
-import { validateRoundInput } from "@/lib/validateRound";
-import type { HoleScore } from "@/lib/types";
 
-export type CreateRoundInput = {
+export type StartRoundInput = {
   courseId: string;
   playedAt: string;
   handicapIndex: number | null;
   holeNumbers: number[];
-  holes: HoleScore[];
 };
 
-export type CreateRoundResult = { error: string };
+export type StartRoundResult = { error: string };
 
-export async function createRound(
-  input: CreateRoundInput
-): Promise<CreateRoundResult> {
+export async function startRound(
+  input: StartRoundInput
+): Promise<StartRoundResult> {
   const supabase = await createClient();
   const repo = createRepository(supabase);
 
@@ -44,20 +41,13 @@ export async function createRound(
     holes: templateHoles,
   };
 
-  const errors = validateRoundInput(course.holes.length, courseSnapshot, input.holes);
-  if (errors.length > 0) {
-    return { error: errors.join(" ") };
-  }
-
-  await repo.saveRound({
+  const draft = await repo.startDraftRound({
     courseId: course.id,
     playedAt: input.playedAt,
     handicapIndex: input.handicapIndex,
-    holes: input.holes,
     courseSnapshot,
   });
 
   revalidatePath("/rounds");
-  revalidatePath("/dashboard");
-  redirect("/rounds");
+  redirect(`/rounds/${draft.id}/enter`);
 }

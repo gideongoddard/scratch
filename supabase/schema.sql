@@ -36,8 +36,11 @@ create table if not exists public.rounds (
   course_id       uuid references public.courses(id) on delete set null,
   played_at       date not null,
   handicap_index  numeric(4,1),
+  status          text not null default 'complete' check (status in ('in_progress', 'complete')),
   holes           jsonb not null,
   -- holes shape: [{ hole: int, gross: int, putts: int, accuracy: 'hit'|'left'|'right'|'short'|'long', teeClub: str|null, sandShots: int|null, penalties: int|null }]
+  -- while status='in_progress' (a draft, GOD-212), gross/putts/accuracy may be null on
+  -- unplayed holes — that invariant is app-side (lib/validateRound.ts), not a DB constraint
   course_snapshot jsonb not null,
   -- course_snapshot shape: { name, tee, coursePar, totalYards, slopeRating, courseRating,
   --                          holes: [{ hole, si, par, yards }, ...] }
@@ -71,3 +74,13 @@ create trigger courses_updated_at
 create trigger rounds_updated_at
   before update on public.rounds
   for each row execute function public.set_updated_at();
+
+-- ============================================================
+-- ROUNDS: draft status (GOD-212)
+-- Run this against an existing database — the create table above only
+-- applies to a fresh install. Existing rows are all finished rounds, so
+-- the 'complete' default backfills them in the same statement.
+-- ============================================================
+alter table public.rounds
+  add column if not exists status text not null default 'complete'
+    check (status in ('in_progress', 'complete'));
